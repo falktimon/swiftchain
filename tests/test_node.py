@@ -22,7 +22,7 @@ class TestNode(unittest.TestCase):
         tester_node = Node("Tester")
         self.assertEqual("Tester", tester_node.get_node_name())
 
-    def test_get_data_by_range(self):
+    def test_read_data_by_range(self):
 
         tester_node = Node("Tester")
         blockchain = Blockchain(g_data="Test", node_addr=tester_node.get_node_addr())
@@ -30,6 +30,10 @@ class TestNode(unittest.TestCase):
         for i in range(100): tester_node.write_data(data=str(i), chain=blockchain)
         output = tester_node.read_data_by_range(5, chain=blockchain)
 
+        with self.assertRaises(Exception) as context:
+            tester_node.read_data_by_range(range=102, chain=blockchain)
+
+        self.assertTrue("exceeds size of ledger." in str(context.exception))
         self.assertEqual(['95', '96', '97', '98', '99'], output)
 
     def test_write_data(self):
@@ -67,8 +71,6 @@ class TestNode(unittest.TestCase):
         for i in range(10):
             tester_node.write_data(data=str(i), chain=blockchain, meta_data="Meta " + str(i))
 
-        print(blockchain.get_last_block().get_meta_data())
-
         data = tester_node.read_data_by_meta(meta="Meta 9", chain=blockchain)
         self.assertEqual(["9"], data)
 
@@ -76,5 +78,22 @@ class TestNode(unittest.TestCase):
             tester_node.read_data_by_meta(meta="Not contained inside", chain=blockchain)
 
         self.assertTrue("Ledger does not contain" in str(context.exception))
+
+    def test_get_blocks_by_meta(self):
+
+        tester_node = Node("Tester")
+        blockchain = Blockchain()
+
+        for i in range(10):
+            tester_node.write_data(data=str(i), chain=blockchain, meta_data="Meta " + str(i))
+
+        blocks = tester_node.get_blocks_by_meta(meta="Meta 2", chain=blockchain)
+
+        with self.assertRaises(Exception) as context:
+            tester_node.get_blocks_by_meta(meta="Not contained inside", chain=blockchain)
+
+        self.assertTrue("Ledger does not contain" in str(context.exception))
+        self.assertEqual("2", blocks[0].get_data())
+
 
 if __name__ == '__main__': unittest.main()
