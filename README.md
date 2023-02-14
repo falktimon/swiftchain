@@ -26,7 +26,7 @@ This will create an object file for your platform, which may be included in a pr
 
 ## Basic Usage
 
-```
+```python
 from swiftchain import Blockchain, Node
 
 # Create a Node with some user name.
