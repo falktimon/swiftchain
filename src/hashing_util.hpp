@@ -5,8 +5,7 @@
 
 using namespace std;
 
-template<typename T>
-std::string generateSHAHash(T data)
+std::string generate_sha_hash(string data)
 {
     vector<unsigned char> hash(picosha2::k_digest_size);
     picosha2::hash256(data.begin(), data.end(),

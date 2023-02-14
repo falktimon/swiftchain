@@ -3,7 +3,7 @@
 
 #ifndef BLOCKCHAIN_HEADER
 #define BLOCKCHAIN_HEADER
-#include "Blockchain.hpp"
+#include "blockchain.hpp"
 #endif
 
 #include <string>

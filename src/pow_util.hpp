@@ -1,13 +1,13 @@
 #ifndef POWUTIL_HPP
 #define POWUTIL_HPP
 
-#include "Block.hpp"
+#include "block.hpp"
 
 #include <string>
 
 /*  Simple hashcash implementation. */
 
-int findTrailingZeros(std::string hash)
+int find_trailing_zeros(std::string hash)
 {
     unsigned short int i = 0;
 
@@ -16,7 +16,7 @@ int findTrailingZeros(std::string hash)
     return i;
 }
 
-const std::string hexCharToBin(char c)
+const std::string hex_to_bin(char c)
 {
     switch(toupper(c))
     {
@@ -40,32 +40,32 @@ const std::string hexCharToBin(char c)
     }
 }
 
-std::string convertToBinary(std::string hash)
+std::string convert_to_bin(std::string hash)
 {
     std::string binary;
 
     for(int i = 0; i < (int) hash.size(); i++)
-        binary += hexCharToBin(hash[i]);
+        binary += hex_to_bin(hash[i]);
 
     return binary;
 }
 
-bool runHashCash(Block *block)
+bool run_hash_cash(Block *block)
 {
-    std::string hash = convertToBinary(block->getBlockHash());
-    long unsigned int difficulty = block->getDifficulty();
+    std::string hash = convert_to_bin(block->get_block_hash());
+    long unsigned int difficulty = block->get_difficulty();
 
     unsigned short int zeros;
 
-    if((zeros = findTrailingZeros(hash)) >= difficulty)
+    if((zeros = find_trailing_zeros(hash)) >= difficulty)
         return true;
 
     return false;
 }
 
-bool verifyAttempt(Block *block)
+bool verify_attempt(Block *block)
 {
-   return runHashCash(block);
+   return run_hash_cash(block);
 }
 
 #endif

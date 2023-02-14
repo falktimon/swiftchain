@@ -6,7 +6,7 @@
 
 #ifndef BLOCK_HEADER
 #define BLOCK_HEADER
-#include "Block.hpp"
+#include "block.hpp"
 #endif
 
 #include <stdint.h>

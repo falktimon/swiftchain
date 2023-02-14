@@ -1,11 +1,11 @@
 #ifndef BLOCK_HEADER
 #define BLOCK_HEADER
-#include "Block.hpp"
+#include "block.hpp"
 #endif
 
 #ifndef HASH_HEADER
 #define HASH_HEADER
-#include "HashingUtil.hpp"
+#include "hashing_util.hpp"
 #endif
 
 using namespace std;
@@ -43,7 +43,7 @@ Block::Block(Block *prev, string data, string userAddress,
 data -> Some content to be written into the Genesis block.
 node_address -> The hash string of the Node that is creating the Genesis block
 
-A Genesis constructor, used to start a new blockchain. This constructor is called in the 
+A Genesis constructor, used to generate a Genesis block. This constructor is called in the 
 Blockchain constructor. The Genesis block is used to validate any consecutive block in the blockchain. */
 Block::Block(string data, string node_address)
 {
@@ -78,7 +78,7 @@ string Block::generate_block_hash(Block *b)
                     b->prev_hash; 
 
     // Return the hash of the assembled string:
-    return generateSHAHash<string>(seed);
+    return generate_sha_hash(seed);
 }
 
 //! getblock_id(void)

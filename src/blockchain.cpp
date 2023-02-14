@@ -1,16 +1,16 @@
 #ifndef BLOCKCHAIN_HEADER
 #define BLOCKCHAIN_HEADER
-#include "Blockchain.hpp"
+#include "blockchain.hpp"
 #endif 
 
 #ifndef POW_HEADER
 #define POW_HEADER
-#include "PoWUtil.hpp"
+#include "pow_util.hpp"
 #endif 
 
 #ifndef BLOCK_CPP
 #define BLOCK_CPP
-#include "Block.cpp"
+#include "block.cpp"
 #endif
 
 #include <iostream>
@@ -90,7 +90,7 @@ Block *Blockchain::mine_block(string data, string node_address)
         try_block = new Block(this->get_last_block(), data, node_address,
                             nonce++, this->get_difficulty());
 
-    } while(!verifyAttempt(try_block));
+    } while(!verify_attempt(try_block));
 
     if(!this->append_block(try_block))
         cout << "Could not append block to chain." << endl;

@@ -1,16 +1,16 @@
 #ifndef HASH_HEADER
 #define HASH_HEADER
-#include "HashingUtil.hpp"
+#include "hashing_util.hpp"
 #endif
 
 #ifndef BLOCKCHAIN_CPP
 #define BLOCKCHAIN_CPP
-#include "Blockchain.cpp"
+#include "blockchain.cpp"
 #endif
 
 #ifndef NODE_HEADER
 #define NODE_HEADER
-#include "Node.hpp"
+#include "node.hpp"
 #endif
 
 #include <iostream>
@@ -22,7 +22,7 @@ typedef reverse_iterator<_Rb_tree_iterator<pair<const string, Block *>>> rIter;
 Node::Node(string node_name)
 {
     this->node_name = node_name;
-    this->node_address = generateSHAHash<string>(node_name);
+    this->node_address = generate_sha_hash(node_name);
 }
 
 bool Node::write_data(string data, Blockchain *chain, int tryLimit = 10)
