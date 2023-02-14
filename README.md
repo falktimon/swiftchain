@@ -1,5 +1,5 @@
 # swiftchain
-### A tiny library for building performant Blockchain applications in Python
+### A tiny, opinionated library for building performant Blockchain applications in Python
 
 **Please note: swiftchain is currently still in early development and not yet in a production-ready state.**
 
@@ -24,15 +24,45 @@ cd swiftchain/src
 
 This will create an object file for your platform, which may be included in a project locally or added to the ```site-packages``` folder in the Python installation directory.
 
+## Basic Usage
+
+```
+from swiftchain import Blockchain, Node
+
+# Create a Node with some user name.
+# The hash generated from this user name is used as the Node address:
+user = Node("Some user name to be hashed")
+
+# Create a blockchain with a difficulty threshold of 7, 
+# meaning that the difficulty is increased every 7 blocks:
+chain = Blockchain(diff_threshold=7, g_data="Fiat Lux!",
+                   node_addr=user.get_node_addr())
+
+# Mine 100 blocks on the above chain.
+# This will take ~8 seconds on an average consumer PC:
+for i in range(100):
+    user.write_data(data="Hello " + str(i), chain=chain)
+
+# Print the content of the last 5 blocks onto the screen:
+print(user.read_data_by_range(range=5, chain=chain))
+
+# Output: ['Hello 95', 'Hello 96', 'Hello 97', 'Hello 98', 'Hello 99']
+
+```
+
 
 ## Limitations
 
 Currently, a few specific things are hardcoded into the library and cannot be changed. These limitations mostly apply to the prebuild Blockchain class.
 
-* The findConsensus() method will always run the Nakamoto consensus on a given ledger. The ability to define a custom algorithm for finding a consensus has not yet been implemented.
-* swiftchain only exposes classes and methods for building blockchains - networking must be implemented *ad hoc*. Supporting networking is currently not a goal in swiftchain development.
 * swiftchain has currently only been tested on a Linux machine and may not work as expected on a different OS
-* Currently, it is not possible to mine blocks with an infinite number of tries/hashes. This will, however, be implemented in a coming version.
+* The API does not include methods for networking - these have to be implemented *ad-hoc*. This may change in a future version.
+
+## Features
+
+* Exposes basic building blocks of Blockchain applications in an easy-to-use API
+* Permissive open-source license (Apache-2.0)
+* Tiny codebase (~1400 SLoC, excluding pybind11 and tests) with a small installation size (500KB)
 
 ## Known Issues
 
