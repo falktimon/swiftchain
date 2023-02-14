@@ -1,5 +1,5 @@
 # swiftchain
-### A library for building performant Blockchain applications in Python
+### A tiny library for building performant Blockchain applications in Python
 
 **Please note: swiftchain is currently still in early development and not yet in a production-ready state.**
 

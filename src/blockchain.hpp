@@ -49,6 +49,7 @@ class Blockchain {
 
         bool find_consensus(Blockchain *foreign_chain);
 
+        std::vector<Block *> get_blocks_by_range(unsigned int range);
         Block *get_last_block();
         Ledger get_ledger();
         Block *get_block(std::string hash);

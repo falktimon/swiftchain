@@ -50,6 +50,8 @@ PYBIND11_MODULE(swiftchain, m)
                py::arg("data"), py::arg("user_addr"))
           .def("get_block_id", &Block::get_block_id,
                "Get the unique ID of the relevant block.")
+          .def("get_node_addr", &Block::get_node_address, 
+               "Get the address of the node which mined this block.")
           .def("get_data", &Block::get_data, "Get the content stored in this Block.")
           .def("get_block_hash", &Block::get_block_hash,
                "Return the hash of this Block.")
@@ -63,6 +65,10 @@ PYBIND11_MODULE(swiftchain, m)
                "Set the unique ID of this block. \
                This function is mostly for internal use, as it may break the ledger.",
                py::arg("block_id"))
+          .def("set_node_addr", &Block::set_node_address, 
+               "Set the address that mined this block.", py::arg("node_addr"))
+          .def("set_data", &Block::set_data, "Set the data stored within the block.",
+               py::arg("data"))
           .def("get_blockchain_id", &Block::get_blockchain_id,
                "Get the ID of the blockchain on which this block has mined.");
 
@@ -125,6 +131,9 @@ PYBIND11_MODULE(swiftchain, m)
                py::arg("hours"))
           .def("get_redux_time", &Blockchain::get_redux_time, 
                "Get the time after which the difficulty is decreased (in milliseconds).")
+          .def("get_blocks_by_range", &Blockchain::get_blocks_by_range,
+               "Get [range] number of blocks from ledger, in ascending order.", 
+               py::arg("range"), py::return_value_policy::copy)
           .def("get_blockchain_id", &Blockchain::get_blockchain_id, 
                "Get the identifying hash of this blockchain.");
      

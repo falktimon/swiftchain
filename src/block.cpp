@@ -127,6 +127,9 @@ void Block::set_block_id(long unsigned int block_id)
 void Block::set_blockchain_id(string blockchain_id)
 { this->blockchain_id = blockchain_id; }
 
+void Block::set_node_address(string node_address)
+{ this->node_address = node_address; }
+
 //! getnode_address(void)
 /*! Parameters: None
 Get the address of the node that mined this block.*/
@@ -138,3 +141,6 @@ string Block::get_timestamp()
 
 string Block::get_blockchain_id()
 { return this->blockchain_id; }
+
+void Block::set_data(string data)
+{ this->data = data; }

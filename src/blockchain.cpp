@@ -40,6 +40,37 @@ Blockchain::Blockchain(long unsigned int try_limit = 10000,
         cout << "Could not create Genesis block" << endl;
 }
 
+vector<Block *> Blockchain::get_blocks_by_range(unsigned int range)
+{
+    vector<Block *> block_range;
+    iter l_iter = this->ledger.begin();
+
+    if(range > this->ledger.size())
+        throw std::out_of_range("Requested range exceeds ledger size.");
+
+    block_range.push_back(this->get_last_block());
+    long unsigned int largest_id = block_range[0]->get_block_id();
+
+    // TODO: Replace this bad sorting algorithm:
+    while(block_range.size() != range)
+    {
+        if(l_iter == this->ledger.end())
+            l_iter = this->ledger.begin();
+
+        if(l_iter->second->get_block_id() == (largest_id - 1))
+        {
+            block_range.push_back(l_iter->second);
+            largest_id = l_iter->second->get_block_id();
+        }
+
+        l_iter++;
+    }
+
+    reverse(begin(block_range), end(block_range));
+
+    return block_range;
+}
+
 void Blockchain::adjust_difficulty()
 {
     /* Adjust difficulty once difficulty limit has been reached. */

@@ -29,7 +29,7 @@ class Node {
         void set_node_name(std::string node_name);
         void set_node_address(std::string node_address);
 
-        std::vector<std::string> read_data_by_range(int range, Blockchain *chain);
+        std::vector<std::string> read_data_by_range(unsigned int range, Blockchain *chain);
         bool write_data(std::string data, Blockchain *chain, int try_limit);
 };
 

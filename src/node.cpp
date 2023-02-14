@@ -41,19 +41,14 @@ bool Node::write_data(string data, Blockchain *chain, int tryLimit = 10)
     return true;
 }
 
-vector<string> Node::read_data_by_range(int range, Blockchain *chain)
+vector<string> Node::read_data_by_range(unsigned int range, Blockchain *chain)
 {
     // Get a range of block data from the ledger
-    Ledger ledger = chain->get_ledger();
-    r_iter backwards = ledger.rbegin();
-
+    vector<Block *> blocks = chain->get_blocks_by_range(range);
     vector<string> content;
 
-    for(int i = 0; i < range; i++)
-    {
-        content.push_back(backwards->second->get_data());
-        backwards++;
-    }
+    for(unsigned int i = 0; i < blocks.size(); i++)
+        content.push_back(blocks[i]->get_data());
 
     return content;
 }

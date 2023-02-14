@@ -45,13 +45,10 @@ class Block {
               long unsigned int nonce, long unsigned int difficulty,
               std::string blockchain_id);
 
-        void set_content(std::string data);
-        std::string get_content();
-
-        void set_user_id(std::string user_id);
+        void set_node_address(std::string node_address);
         void set_block_id(long unsigned int block_id);
         void set_blockchain_id(std::string blockchain_id);
-        void increment_nonce();
+        void set_data(std::string data);
 
         std::string get_block_hash();
         std::string get_prev_hash();
