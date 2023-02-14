@@ -105,7 +105,8 @@ PYBIND11_MODULE(swiftchain, m)
                py::arg("range"), py::arg("chain"))
           .def("write_data", &Node::write_data, 
                "Write data into the blockchain from a node.",
-               py::arg("data"), py::arg("chain"), py::arg("max_tries") = 10);
+               py::arg("data"), py::arg("chain"), py::arg("max_tries") = 10,
+               py::arg("meta_data") = "");
      
      py::class_<Blockchain>(m, "Blockchain")
           .def(py::init<long unsigned int, unsigned int, std::string, std::string, float>(),

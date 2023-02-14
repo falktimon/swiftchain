@@ -54,7 +54,7 @@ This method provides a higher-level wrapper over the mine_block_concurrently(str
 method from the Blockchain class. It can be used to write data into a given blockchain.
 Writing an empty data string is not allowed.
 Returns true if a block has been added successfully, else returns false.*/
-bool Node::write_data(string data, Blockchain *chain, int try_limit = 10)
+bool Node::write_data(string data, Blockchain *chain, int try_limit = 10, string meta_data = "")
 {
     // If message is empty, return false:
     if(data == "") return false;
