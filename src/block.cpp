@@ -24,7 +24,7 @@ Block::Block(Block *prev, string data, string userAddress,
             long unsigned int nonce, long unsigned int difficulty,
             string blockchain_id = "0")
 {
-    /* Common constructor. Used in mining blocks, for e.g. data uploading.*/
+    /* Common constructor. Used in mining blocks, for e.g. data storage.*/
 
     this->block_id = (*prev).block_id + 1;
     this->data = data;

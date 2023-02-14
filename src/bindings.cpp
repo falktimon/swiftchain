@@ -74,9 +74,9 @@ PYBIND11_MODULE(swiftchain, m)
 
      py::class_<Node>(m, "Node")
           .def(py::init<std::string>(), py::arg("node_name"))
-          .def("get_node_name", &Node::get_node_address, 
+          .def("get_node_name", &Node::get_node_name, 
                "Return the address of the relevant node.")
-          .def("get_node_address", &Node::get_node_name, 
+          .def("get_node_addr", &Node::get_node_address, 
                "Return the name of the relevant node.")
           .def("set_node_name", &Node::set_node_name, 
                "Set the name of the current node.", py::arg("node_name"))

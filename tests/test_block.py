@@ -34,7 +34,14 @@ class TestBlock(unittest.TestCase):
         block = Block(data="Some Data", user_addr="Tester")
         self.assertEqual(0, block.get_nonce())
 
+    def test_get_difficulty(self):
+
+        block = Block(data="Some Data", user_addr="Tester")
+        self.assertEqual(0, block.get_difficulty())
+
+    def test_get_data(self):
+
+        block = Block(data="Some Data", user_addr="Tester")
+        self.assertEqual("Some Data", block.get_data())
 
 if __name__ == '__main__': unittest.main()
-
-
