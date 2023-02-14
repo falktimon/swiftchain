@@ -50,9 +50,13 @@ Blockchain::Blockchain(long unsigned int try_limit = 10000,
                        string node_addr = "UNSET", string genesis_data = "",
                        float diff_redux_time = 0.5)
 { 
+    this->difficulty = 1;
+
+    if(!difficulty_limit || !try_limit)
+        throw "diff_threshold and try_limit cannot be zero!";
+
     this->try_limit = try_limit; 
     this->difficulty_limit = difficulty_limit;
-    this->difficulty = 1;
 
     // Convert hours to milliseconds:
     this->diff_redux_time = (long unsigned int) round(diff_redux_time * 60 * 60 * 1000);
