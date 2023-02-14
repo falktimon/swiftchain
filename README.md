@@ -11,7 +11,7 @@ swiftchain may be installed via pip using the following command:
 ```
 pip install swiftchain
 ```
-```pip``` is the prefered method for installing swiftchain. If you're on a UNIX-like system however, it is also possible to build the library from source. Doing so requires a current version of ```c++``` from ```gcc```. Follow these simple steps:
+```pip``` is the prefered method for installing swiftchain. If you're on a UNIX-like system however, it should also possible to build the library from source. Doing so requires a current version of ```c++``` from ```gcc```. Follow these simple steps:
 
 ```bash
 # Clone the repository:
