@@ -60,3 +60,4 @@ There are some limitations which currently affect swiftchain:
 
 * swiftchain has only been tested on a Linux machine and may not work as expected on a different OS
 * The API does not include methods for networking - these have to be implemented *ad-hoc*. This may change in a future version.
+* Some of the access methods currently have a bad time complexity. This will be fixed in future versions.
