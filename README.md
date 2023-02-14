@@ -1,9 +1,9 @@
 # swiftchain
 ### A tiny, opinionated library for building performant Blockchain applications in Python
 
-**Please note: swiftchain is currently still in early development and not yet in a production-ready state.**
+**Please note: swiftchain is currently still in early development.**
 
-This library provides an easy-to-use, mid-level API for building Blockchain applications in Python. It allows (truly) parallelized mining of Blocks on consumer CPUs, implements the Nakamoto consensus algorithm and exposes an additional Node class, which maybe used as a basis for implementing a network node in a Peer-To-Peer network.
+This library provides an easy-to-use, mid-level API for building Blockchain applications in Python. It allows parallelized mining of Blocks on consumer CPUs, implements the Nakamoto consensus algorithm and exposes an additional Node class, which maybe used as a basis for implementing a network node in a Peer-To-Peer network.
 
 ## Installation
 
@@ -26,7 +26,7 @@ This will create an object file for your platform, which may be included in a pr
 
 ## Basic Usage
 
-Here is a basic example of using swiftchain to create a Blockchain:
+Here is a basic example of creating a Blockchain and mining blocks:
 
 ```python
 from swiftchain import Blockchain, Node
@@ -36,7 +36,7 @@ from swiftchain import Blockchain, Node
 user = Node("Some user name to be hashed")
 
 # Create a blockchain with a difficulty threshold of 7, 
-# meaning that the difficulty is increased every 7 blocks:
+# meaning that the difficulty increases every 7 blocks:
 chain = Blockchain(diff_threshold=7, g_data="Fiat Lux!",
                    node_addr=user.get_node_addr())
 
@@ -51,8 +51,8 @@ print(user.read_data_by_range(range=5, chain=chain))
 # Output: ['Hello 95', 'Hello 96', 'Hello 97', 'Hello 98', 'Hello 99']
 
 ```
-
-For more information on how to use swiftchain, please consult the documentation.
+This blockchain object may then be, for example, pickled into a byte representation and send to another node in a network.
+For more information on how to use swiftchain, please consult the wiki.
 
 ## Limitations
 
