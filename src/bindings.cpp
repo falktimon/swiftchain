@@ -112,7 +112,13 @@ PYBIND11_MODULE(swiftchain, m)
           .def("set_difficulty", &Blockchain::set_difficulty, 
                "Set the difficulty of the blockchain.", py::arg("diff"))
           .def("get_ledger_size", &Blockchain::get_ledger_size,
-               "Get the size of the current ledger.");
+               "Get the size of the current ledger.")
+          .def("get_try_limit", &Blockchain::get_try_limit, "Get the maximum number of tries per mining attempt.")
+          .def("set_diff_redux_time", &Blockchain::set_diff_reduction_time, 
+               "Set the time after which the difficulty is decreased (in hours).",
+               py::arg("hours"))
+          .def("get_diff_redux_time", &Blockchain::get_diff_reduction_time, 
+               "Get the time after which the difficulty is decreased (in milliseconds).");
      
           m.def("find_trailing_zeros", &find_trailing_zeros,
                "Find the number of trailing zeros in a hash.",

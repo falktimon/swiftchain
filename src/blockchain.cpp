@@ -29,7 +29,7 @@ Blockchain::Blockchain(long unsigned int try_limit = 10000,
     this->difficulty_limit = difficulty_limit;
     this->difficulty = 1;
 
-    this->diff_redux_time = (long unsigned int) round(60 * 1000 * diff_redux_time);
+    this->diff_redux_time = (long unsigned int) round(diff_redux_time * 60 * 60 * 1000);
 
     static Block genesis = Block(genesis_data, user_name);
 
@@ -153,7 +153,10 @@ Block *Blockchain::mine_block_concurrently(string data, string node_address)
         // If all hardware threads are in use, do nothing
         if(i++ != (thread::hardware_concurrency() - 1))
         {
-            auto future = async([this, data, node_address]{ return this->mine_block(data, node_address); });
+            auto future = async([this, data, node_address]{ 
+                return (Block *) this->mine_block(data, node_address); 
+            });
+
             nextBlock = future.get(); 
         }
     }
@@ -183,6 +186,27 @@ bool Blockchain::find_consensus(Blockchain *foreign_chain)
     return false;
 }
 
+void Blockchain::set_try_limit(long unsigned int try_limit)
+{ this->try_limit = try_limit; }
+
+void Blockchain::set_difficulty_limit(unsigned int difficulyLimit)
+{ this->difficulty_limit = difficulty_limit; }
+
+void Blockchain::set_difficulty(long unsigned int difficulty)
+{ this->difficulty = difficulty; }
+
+void Blockchain::set_diff_reduction_time(long unsigned int time)
+{ 
+    time = time * 60 /*minutes*/ * 60 * /*seconds*/ 1000 /*milliseconds*/;
+    this->diff_redux_time = time; 
+}
+
+Ledger Blockchain::get_ledger()
+{ return this->ledger; }
+
+long unsigned int Blockchain::get_difficulty()
+{ return this->difficulty; }
+
 long unsigned int Blockchain::get_ledger_size()
 { return (long unsigned int) this->ledger.size(); }
 
@@ -195,20 +219,5 @@ unsigned int Blockchain::get_difficulty_limit()
 long unsigned int Blockchain::get_try_limit()
 { return this->try_limit; }
 
-void Blockchain::set_difficulty_limit(unsigned int difficulyLimit)
-{ this->difficulty_limit = difficulty_limit; }
-
-void Blockchain::set_difficulty(long unsigned int difficulty)
-{ this->difficulty = difficulty; }
-
-Ledger Blockchain::get_ledger()
-{ 
-    Ledger l_copy = this->ledger; 
-    return l_copy;
-}
-
-long unsigned int Blockchain::get_difficulty()
-{ return this->difficulty; }
-
-void Blockchain::set_try_limit(long unsigned int try_limit)
-{ this->try_limit = try_limit; }
+long unsigned int Blockchain::get_diff_reduction_time()
+{ return this->diff_redux_time; }

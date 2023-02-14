@@ -32,5 +32,8 @@ Currently, a few specific things are hardcoded into the library and cannot be ch
 * The findConsensus() method will always run the Nakamoto consensus on a given ledger. The ability to define a custom algorithm for finding a consensus has not yet been implemented.
 * swiftchain only exposes classes and methods for building blockchains - networking must be implemented *ad hoc*. Supporting networking is currently not a goal in swiftchain development.
 * swiftchain has currently only been tested on a Linux machine and may not work as expected on a different OS
+* Currently, it is not possible to mine blocks with an infinite number of tries/hashes. This will, however, be implemented in a coming version.
 
 ## Known Issues
+
+* When mining two Blocks with the same content and node address, verification on the chain sometimes fails. This happens only if they are also mined with the same nonce and in the same millisecond. The odds of this happening decrease over time.
