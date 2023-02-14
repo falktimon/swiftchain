@@ -35,18 +35,22 @@ class Block {
         std::string generate_timestamp();
         std::string generate_block_hash(Block *b);
 
+        std::string blockchain_id;
+
     protected:
     public:
 
         Block(std::string data, std::string user_address);
         Block(Block *prev, std::string data, std::string user_address, 
-              long unsigned int nonce, long unsigned int difficulty);
+              long unsigned int nonce, long unsigned int difficulty,
+              std::string blockchain_id);
 
         void set_content(std::string data);
         std::string get_content();
 
         void set_user_id(std::string user_id);
         void set_block_id(long unsigned int block_id);
+        void set_blockchain_id(std::string blockchain_id);
         void increment_nonce();
 
         std::string get_block_hash();
@@ -56,6 +60,7 @@ class Block {
         long unsigned int get_difficulty();
         std::string get_data();
         std::string get_node_address();   
+        std::string get_blockchain_id();
         std::string get_timestamp();
 
 };

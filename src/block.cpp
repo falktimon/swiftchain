@@ -21,7 +21,8 @@ difficulty: The current difficulty level.
 
 This is the common constructor used for mining blocks.*/
 Block::Block(Block *prev, string data, string userAddress,
-            long unsigned int nonce, long unsigned int difficulty)
+            long unsigned int nonce, long unsigned int difficulty,
+            string blockchain_id = "0")
 {
     /* Common constructor. Used in mining blocks, for e.g. data uploading.*/
 
@@ -29,6 +30,7 @@ Block::Block(Block *prev, string data, string userAddress,
     this->data = data;
     this->node_address = userAddress;
     this->timestamp = generate_timestamp();
+    this->blockchain_id = blockchain_id;
 
     this->difficulty = difficulty;
     this->nonce = nonce;
@@ -122,6 +124,9 @@ long int Block::get_nonce()
 void Block::set_block_id(long unsigned int block_id)
 { this->block_id = block_id; }
 
+void Block::set_blockchain_id(string blockchain_id)
+{ this->blockchain_id = blockchain_id; }
+
 //! getnode_address(void)
 /*! Parameters: None
 Get the address of the node that mined this block.*/
@@ -130,3 +135,6 @@ string Block::get_node_address()
 
 string Block::get_timestamp()
 { return this->timestamp; }
+
+string Block::get_blockchain_id()
+{ return this->blockchain_id; }

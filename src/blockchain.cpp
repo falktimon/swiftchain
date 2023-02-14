@@ -32,6 +32,9 @@ Blockchain::Blockchain(long unsigned int try_limit = 10000,
     this->diff_redux_time = (long unsigned int) round(diff_redux_time * 60 * 60 * 1000);
 
     static Block genesis = Block(genesis_data, user_name);
+    genesis.set_blockchain_id(genesis.get_block_hash());
+    
+    this->blockchain_id = genesis.get_block_hash();
 
     if(!this->append_block(&genesis))
         cout << "Could not create Genesis block" << endl;
@@ -60,8 +63,12 @@ bool Blockchain::verify_block(Block *block)
 {
     /* Verify a given block against the entire ledger. */
 
+    // Return false if block was not mined on this chain:
+    if(block->get_blockchain_id() != this->blockchain_id) 
+        return false;
+
     // Return true if block is Genesis:
-    if(block->get_block_id() == 0) return true; 
+    if(block->get_block_id() == 0) return true;
 
     iter found_block = this->ledger.find(block->get_prev_hash());
     bool is_found = found_block != this->ledger.end();
@@ -88,7 +95,7 @@ Block *Blockchain::mine_block(string data, string node_address)
 
         // Create a block with the next nonce
         try_block = new Block(this->get_last_block(), data, node_address,
-                            nonce++, this->get_difficulty());
+                            nonce++, this->get_difficulty(), this->blockchain_id);
 
     } while(!verify_attempt(try_block));
 
@@ -211,7 +218,19 @@ long unsigned int Blockchain::get_ledger_size()
 { return (long unsigned int) this->ledger.size(); }
 
 Block *Blockchain::get_last_block()
-{ return this->ledger.rbegin()->second; }
+{ 
+    iter r = this->ledger.begin();
+    Block *last_block = r->second;
+
+    while(++r != this->ledger.end())
+    {
+        if(r->second->get_block_id() > last_block->get_block_id())
+            last_block = r->second;
+        
+    }
+
+    return last_block; 
+}
 
 unsigned int Blockchain::get_difficulty_limit()
 { return this->difficulty_limit; }
@@ -221,3 +240,6 @@ long unsigned int Blockchain::get_try_limit()
 
 long unsigned int Blockchain::get_diff_reduction_time()
 { return this->diff_redux_time; }
+
+string Blockchain::get_blockchain_id()
+{ return this->blockchain_id; }

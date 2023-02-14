@@ -62,7 +62,9 @@ PYBIND11_MODULE(swiftchain, m)
           .def("set_block_id", &Block::set_block_id, 
                "Set the unique ID of this block. \
                This function is mostly for internal use, as it may break the ledger.",
-               py::arg("block_id"));
+               py::arg("block_id"))
+          .def("get_blockchain_id", &Block::get_blockchain_id,
+               "Get the ID of the blockchain on which this block has mined.");
 
      py::class_<Node>(m, "Node")
           .def(py::init<std::string>(), py::arg("node_name"))
@@ -103,7 +105,8 @@ PYBIND11_MODULE(swiftchain, m)
                if foreign ledger possesses higher cumulative proof-of-work. \
                Returns ledger on success, None on failure.", py::arg("f_chain"))
           .def("get_block", &Blockchain::get_block, "Get a block by hash.", py::arg("hash"))
-          .def("get_last_block", &Blockchain::get_last_block, "Get the last block in the ledger.", py::return_value_policy::reference)
+          .def("get_last_block", &Blockchain::get_last_block, "Get the last block in the ledger.", 
+               py::return_value_policy::reference)
           .def("set_difficulty_limit", &Blockchain::set_difficulty_limit, 
                "Set the difficulty threshold. \
                (The number of blocks at which the difficulty is raised.)", py::arg("diff_threshold"))
@@ -118,7 +121,9 @@ PYBIND11_MODULE(swiftchain, m)
                "Set the time after which the difficulty is decreased (in hours).",
                py::arg("hours"))
           .def("get_diff_redux_time", &Blockchain::get_diff_reduction_time, 
-               "Get the time after which the difficulty is decreased (in milliseconds).");
+               "Get the time after which the difficulty is decreased (in milliseconds).")
+          .def("get_blockchain_id", &Blockchain::get_blockchain_id, 
+               "Get the identifying hash of this blockchain.");
      
           m.def("find_trailing_zeros", &find_trailing_zeros,
                "Find the number of trailing zeros in a hash.",
