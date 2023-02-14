@@ -53,6 +53,7 @@ print(user.read_data_by_range(5, chain=chain))
 
 ```
 By default, this example uses 5 threads to mine a block on the blockchain. Feel free to vary the amount of threads by specifiying the optional ```threads``` parameter of the ```write_data``` function, to see how it impacts performance.
+
 For more details on how to use this library, please consult the [wiki](https://github.com/mnt-home/swiftchain/wiki).
 
 ## Limitations
