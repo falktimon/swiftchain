@@ -7,7 +7,7 @@ user = Node("Some user name to be hashed")
 # Create a blockchain with a difficulty threshold of 7,
 # meaning that the difficulty is increased every 7 blocks:
 chain = Blockchain(diff_threshold=7, g_data="Fiat Lux!",
-                   node_addr=user.get_node_addr(), try_limit=100000)
+                   node_addr=user.get_node_addr())
 
 # Mine 100 blocks on the above chain.
 # This will take ~5 seconds on an average consumer PC:
