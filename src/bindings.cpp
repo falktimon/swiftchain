@@ -106,7 +106,11 @@ PYBIND11_MODULE(swiftchain, m)
           .def("write_data", &Node::write_data, 
                "Write data into the blockchain from a node.",
                py::arg("data"), py::arg("chain"), py::arg("max_tries") = 10,
-               py::arg("meta_data") = "");
+               py::arg("meta_data") = "")
+          .def("read_data_by_meta", &Node::read_data_by_meta, 
+               "Find content by providing a metadata argument.", py::arg("meta"), py::arg("chain"))
+          .def("get_block_by_index", &Node::get_block_by_index, "Get a block at a certain position in the ledger.",
+               py::arg("index"), py::arg("chain"));
      
      py::class_<Blockchain>(m, "Blockchain")
           .def(py::init<long unsigned int, unsigned int, std::string, std::string, float>(),
@@ -154,7 +158,9 @@ PYBIND11_MODULE(swiftchain, m)
                "Get [range] number of blocks from ledger, in ascending order.", 
                py::arg("range"), py::return_value_policy::copy)
           .def("get_blockchain_id", &Blockchain::get_blockchain_id, 
-               "Get the identifying hash of this blockchain.");
+               "Get the identifying hash of this blockchain.")
+          .def("get_block_by_index", &Blockchain::get_block_by_index, "Get a block at a certain position in the ledger.",
+               py::arg("index"));
      
           m.def("find_trailing_zeros", &find_trailing_zeros,
                "Find the number of trailing zeros in a hash.",

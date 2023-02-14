@@ -96,6 +96,28 @@ vector<string> Node::read_data_by_range(unsigned int range, Blockchain *chain)
     return content;
 }
 
+vector<string> Node::read_data_by_meta(string meta, Blockchain *chain)
+{
+    vector<string> content;
+    iter l_iter = chain->get_ledger().begin();
+
+    while(l_iter != chain->get_ledger().end())
+    {
+        if(l_iter->second->get_meta_data() == meta)
+            content.push_back(l_iter->second->get_data());
+
+        l_iter++;
+    }
+
+    return content;
+}
+
+Block *Node::get_block_by_index(unsigned int index, Blockchain *chain)
+{
+    vector<Block *> blocks = chain->get_blocks_by_range(chain->get_ledger_size());
+    return blocks[index];
+}
+
 //! Get the address (i.e. the SHA256 hash) of the Node object
 string Node::get_node_address()
 { return this->node_address; }

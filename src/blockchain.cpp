@@ -86,7 +86,7 @@ vector<Block *> Blockchain::get_blocks_by_range(unsigned int range)
     block_range.push_back(this->get_last_block());
     long unsigned int largest_id = block_range[0]->get_block_id();
 
-    // TODO: Replace this bad sorting algorithm:
+    // TODO: Replace this bad, O(n^2) sorting algorithm:
     while(block_range.size() != range)
     {
         if(l_iter == this->ledger.end())
@@ -256,6 +256,13 @@ Block *Blockchain::get_block(string hash)
     // Return the Block in question:
     return this->ledger.at(hash);
 }
+
+Block *Blockchain::get_block_by_index(unsigned int index)
+{
+    vector<Block *> blocks = this->get_blocks_by_range(this->get_ledger_size());
+    return blocks[index];
+}
+
 
 //! mine_block_concurrently(string, string)
 /*! Parameters:
