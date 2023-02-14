@@ -18,7 +18,8 @@ typedef std::map<std::string, Block *> Ledger;
 
 //! Blockchain
 /*! This class implements a Blockchain structure and various methods
-for interacting with the ledger.*/
+for interacting with the ledger. The Node class exposes some higher-level wrappers
+over some methods in this class.*/
 class Blockchain {
 
     private:
@@ -40,7 +41,7 @@ class Blockchain {
 
         //! Blockchain constructor
         Blockchain(long unsigned int try_limit, 
-                    unsigned int difficulty_limit, std::string user_name, 
+                    unsigned int difficulty_limit, std::string node_addr, 
                     std::string genesis_data, float diff_redux_time);
 
         bool verify_block(Block *block);

@@ -39,9 +39,8 @@ Block::Block(Block *prev, string data, string userAddress,
     this->block_hash = generate_block_hash(this);
 }
 
-//! Genesis constructor
+//! Construct a Genesis block
 /*! Parameters: 
-
 data -> Some content to be written into the Genesis block.
 node_address -> The hash string of the Node that is creating the Genesis block
 
@@ -83,15 +82,15 @@ string Block::generate_block_hash(Block *b)
     return generate_sha_hash(seed);
 }
 
-//! getblock_id(void)
+//! get_block_id(void)
 /*! Parameters: None
-Returns the unique ID of the Block object.*/
+Returns the unique ID of the Block object as an integer.*/
 long unsigned int Block::get_block_id()
 { return this->block_id; }
 
-//! getData(void)
+//! get_data(void)
 /*! Parameters: None
-Get the content container within the Block object. */
+Get the content contained within the Block object. */
 string Block::get_data()
 { return this->data; }
 
@@ -101,32 +100,38 @@ Get the hash of the Block object.*/
 string Block::get_block_hash()
 { return this->block_hash; }
 
-//! getprev_hash(void)
+//! get_prev_hash(void)
 /*! Parameters: None
 Get the previous hash stored within in Block object. */
 string Block::get_prev_hash()
 { return this->prev_hash; }
 
-//! getDifficulty(void)
+//! get_difficulty(void)
 /*! Parameters: None
 Get the difficulty level under which the current block was mined.*/
 long unsigned int Block::get_difficulty()
 { return this->difficulty; }
 
-//! getNonce(void)
+//! get_nonce(void)
 /*! Parameters: None
 Return the nonce with which the Block object was mined.*/
 long int Block::get_nonce()
 { return this->nonce; }
 
-//! setblock_id(long unsigned int)
+//! set_block_id(long unsigned int)
 /*! Parameters: A unique integer to be used as a block identifier.*/
 void Block::set_block_id(long unsigned int block_id)
 { this->block_id = block_id; }
 
+//! set_blockchain_id(string)
+/*! Parameters: A blockchain ID as a string.
+Specify a blockchain which this Block object is contained with.*/
 void Block::set_blockchain_id(string blockchain_id)
 { this->blockchain_id = blockchain_id; }
 
+//! set_node_address(string)
+/*! Parameters: A Node address as a string.
+Set the Node address associated with this Block object.*/
 void Block::set_node_address(string node_address)
 { this->node_address = node_address; }
 
@@ -136,11 +141,18 @@ Get the address of the node that mined this block.*/
 string Block::get_node_address()
 { return this->node_address; }
 
+//! get_timestamp(void)
+/*! Parameters: None
+Get the UNIX timestamp contained within this string*/
 string Block::get_timestamp()
 { return this->timestamp; }
 
+//! get_blockchain_id(void)
+/*! Get the ID of the blockchain associated with this Block object. */
 string Block::get_blockchain_id()
 { return this->blockchain_id; }
 
+//! set_data(string)
+/*! Set the content of this Block object.*/
 void Block::set_data(string data)
 { this->data = data; }
