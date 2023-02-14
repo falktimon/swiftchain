@@ -60,13 +60,13 @@ bool Node::write_data(string data, Blockchain *chain, int try_limit = 10, string
     if(data == "") return false;
 
     // Try to mine block:
-    Block *block = chain->mine_block_concurrently(data, this->node_address);
+    Block *block = chain->mine_block_concurrently(data, this->node_address, meta_data);
 
     // If block is still NULL, retry until try limit has been reached:
     if(!block) 
     {
         if(this->tries++ == try_limit) return false;
-        write_data(data, chain, try_limit);
+        write_data(data, chain, try_limit, meta_data);
     }
 
     //! Reset try counter:
@@ -89,6 +89,9 @@ vector<string> Node::read_data_by_range(unsigned int range, Blockchain *chain)
     vector<Block *> blocks = chain->get_blocks_by_range(range);
     vector<string> content;
 
+    if(range > chain->get_ledger_size())
+        throw out_of_range("Requested range exceeds size of ledger.");
+
     // Get the data from the blocks:
     for(unsigned int i = 0; i < blocks.size(); i++)
         content.push_back(blocks[i]->get_data());
@@ -96,25 +99,47 @@ vector<string> Node::read_data_by_range(unsigned int range, Blockchain *chain)
     return content;
 }
 
+vector<Block *> Node::get_blocks_by_meta(string meta, Blockchain *chain)
+{
+    vector<Block *> blocks = chain->get_blocks_by_range(chain->get_ledger_size());
+    vector<Block *> content;
+
+    for(unsigned int i = 0; i < blocks.size(); i++)
+    {
+        if(blocks[i]->get_meta_data() == meta)
+            content.push_back(blocks[i]);
+    }
+
+    if(content.empty())
+        throw out_of_range("Ledger does not contain block with meta tag " + meta);
+
+    return content;
+}
+
 vector<string> Node::read_data_by_meta(string meta, Blockchain *chain)
 {
+    vector<Block *> blocks = chain->get_blocks_by_range(chain->get_ledger_size());
     vector<string> content;
-    iter l_iter = chain->get_ledger().begin();
 
-    while(l_iter != chain->get_ledger().end())
+    for(unsigned int i = 0; i < blocks.size(); i++)
     {
-        if(l_iter->second->get_meta_data() == meta)
-            content.push_back(l_iter->second->get_data());
-
-        l_iter++;
+        if(blocks[i]->get_meta_data() == meta)
+            content.push_back(blocks[i]->get_data());
     }
+
+    if(content.empty())
+        throw out_of_range("Ledger does not contain block with meta tag " + meta);
 
     return content;
 }
 
 Block *Node::get_block_by_index(unsigned int index, Blockchain *chain)
 {
+    if(index > chain->get_ledger_size())
+        throw out_of_range("Requested index exceeds size of ledger.");
+
     vector<Block *> blocks = chain->get_blocks_by_range(chain->get_ledger_size());
+
     return blocks[index];
 }
 

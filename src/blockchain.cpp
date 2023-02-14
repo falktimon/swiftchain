@@ -80,7 +80,7 @@ vector<Block *> Blockchain::get_blocks_by_range(unsigned int range)
 
     // Check if range exceeds size of ledger:
     if(range > this->ledger.size())
-        throw std::out_of_range("Requested range exceeds ledger size.");
+        throw std::out_of_range("Requested range exceeds size of ledger.");
 
     // Start with the last Block in the ledger:
     block_range.push_back(this->get_last_block());
@@ -259,6 +259,9 @@ Block *Blockchain::get_block(string hash)
 
 Block *Blockchain::get_block_by_index(unsigned int index)
 {
+    if(index > this->get_ledger_size())
+        throw out_of_range("Requested index exceeds size of ledger.");
+
     vector<Block *> blocks = this->get_blocks_by_range(this->get_ledger_size());
     return blocks[index];
 }

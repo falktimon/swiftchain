@@ -50,6 +50,7 @@ class Node {
         std::vector<std::string> read_data_by_range(unsigned int range, Blockchain *chain);
         std::vector<std::string> read_data_by_meta(std::string meta, Blockchain *chain);
         Block *get_block_by_index(unsigned int index, Blockchain *chain);
+        std::vector<Block *> get_blocks_by_meta(std::string meta, Blockchain *chain);
         bool write_data(std::string data, Blockchain *chain, int try_limit, std::string meta_data);
 };
 

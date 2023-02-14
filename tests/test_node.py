@@ -42,3 +42,39 @@ class TestNode(unittest.TestCase):
 
         self.assertEqual("Written successfully", last_block.get_data())
 
+    def test_get_block_by_index(self):
+
+        tester_node = Node("Tester")
+        blockchain = Blockchain()
+
+        for i in range(10):
+            tester_node.write_data(data=str(i), chain=blockchain, meta_data="Meta " + str(i))
+
+        block = tester_node.get_block_by_index(index=7, chain=blockchain)
+
+        self.assertEqual('6', block.get_data())
+
+        with self.assertRaises(Exception) as context:
+            tester_node.get_block_by_index(index=22, chain=blockchain)
+
+        self.assertTrue("Requested index exceeds size of ledger." in str(context.exception))
+
+    def test_read_data_by_meta(self):
+
+        tester_node = Node("Tester")
+        blockchain = Blockchain()
+
+        for i in range(10):
+            tester_node.write_data(data=str(i), chain=blockchain, meta_data="Meta " + str(i))
+
+        print(blockchain.get_last_block().get_meta_data())
+
+        data = tester_node.read_data_by_meta(meta="Meta 9", chain=blockchain)
+        self.assertEqual(["9"], data)
+
+        with self.assertRaises(Exception) as context:
+            tester_node.read_data_by_meta(meta="Not contained inside", chain=blockchain)
+
+        self.assertTrue("Ledger does not contain" in str(context.exception))
+
+if __name__ == '__main__': unittest.main()

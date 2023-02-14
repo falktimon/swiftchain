@@ -59,7 +59,7 @@ class TestBlock(unittest.TestCase):
         self.assertEqual("Some Data", block.get_data())
 
     def test_get_meta_data(self):
-
+        
         block = Block(data="Genesis", user_addr="Tester")
         self.assertEqual("GENESIS", block.get_meta_data())
 

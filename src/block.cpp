@@ -181,6 +181,8 @@ string Block::get_blockchain_id()
 void Block::set_data(string data)
 { this->data = data; }
 
+//! get_meta_data(void)
+/*! Get the meta data stored within the Block object*/
 string Block::get_meta_data()
 { return this->meta_data; }
 

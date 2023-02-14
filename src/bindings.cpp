@@ -101,16 +101,19 @@ PYBIND11_MODULE(swiftchain, m)
           .def("set_node_address", &Node::set_node_address, 
                "Manually set the node address.",py::arg("node_addr"))
           .def("read_data_by_range", &Node::read_data_by_range, 
-               "Return the data stored in a range of blocks.", 
+               "Return the data stored in a range of blocks, starting from the end of the ledger.", 
                py::arg("range"), py::arg("chain"))
           .def("write_data", &Node::write_data, 
                "Write data into the blockchain from a node.",
                py::arg("data"), py::arg("chain"), py::arg("max_tries") = 10,
                py::arg("meta_data") = "")
           .def("read_data_by_meta", &Node::read_data_by_meta, 
-               "Find content by providing a metadata argument.", py::arg("meta"), py::arg("chain"))
+               "Find content by providing a metadata argument.", 
+               py::arg("meta"), py::arg("chain"))
           .def("get_block_by_index", &Node::get_block_by_index, "Get a block at a certain position in the ledger.",
-               py::arg("index"), py::arg("chain"));
+               py::arg("index"), py::arg("chain"), py::return_value_policy::move)
+          .def("get_blocks_by_meta", &Node::get_blocks_by_meta, "Get a range of blocks my providing a metadata argument.",
+               py::arg("meta"), py::arg("chain"));
      
      py::class_<Blockchain>(m, "Blockchain")
           .def(py::init<long unsigned int, unsigned int, std::string, std::string, float>(),
