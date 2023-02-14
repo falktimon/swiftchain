@@ -56,13 +56,13 @@ class Blockchain {
         long unsigned int get_try_limit();
         long unsigned int get_difficulty();
         long unsigned int get_ledger_size();
-        long unsigned int get_diff_reduction_time();
+        long unsigned int get_redux_time();
         std::string get_blockchain_id();
 
         void set_difficulty_limit(unsigned int difficulty_limit);
         void set_try_limit(long unsigned int try_limit);
         void set_difficulty(long unsigned int difficulty);
-        void set_diff_reduction_time(long unsigned int time);
+        void set_redux_time(long unsigned int time);
 };
 
 #endif

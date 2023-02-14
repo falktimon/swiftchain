@@ -153,12 +153,11 @@ Block *Blockchain::get_block(string hash)
 Block *Blockchain::mine_block_concurrently(string data, string node_address)
 {
     Block *nextBlock = NULL;
-    unsigned int i = 0;
 
     while(!nextBlock)
     {
-        // If all hardware threads are in use, do nothing
-        if(i++ != (thread::hardware_concurrency() - 1))
+        // If all hardware thread contexts are in use, do nothing
+        if(thread::hardware_concurrency() - 1)
         {
             auto future = async([this, data, node_address]{ 
                 return (Block *) this->mine_block(data, node_address); 
@@ -202,7 +201,7 @@ void Blockchain::set_difficulty_limit(unsigned int difficulyLimit)
 void Blockchain::set_difficulty(long unsigned int difficulty)
 { this->difficulty = difficulty; }
 
-void Blockchain::set_diff_reduction_time(long unsigned int time)
+void Blockchain::set_redux_time(long unsigned int time)
 { 
     time = time * 60 /*minutes*/ * 60 * /*seconds*/ 1000 /*milliseconds*/;
     this->diff_redux_time = time; 
@@ -238,7 +237,7 @@ unsigned int Blockchain::get_difficulty_limit()
 long unsigned int Blockchain::get_try_limit()
 { return this->try_limit; }
 
-long unsigned int Blockchain::get_diff_reduction_time()
+long unsigned int Blockchain::get_redux_time()
 { return this->diff_redux_time; }
 
 string Blockchain::get_blockchain_id()

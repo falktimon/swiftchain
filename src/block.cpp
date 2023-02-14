@@ -77,7 +77,7 @@ string Block::generate_block_hash(Block *b)
     // Turn the attributes of the Block object into a single string:
     string seed = b->data + b->node_address + b->timestamp +
                     to_string(b->difficulty) + to_string(b->nonce) +
-                    b->prev_hash; 
+                    b->prev_hash + b->blockchain_id + to_string(b->block_id); 
 
     // Return the hash of the assembled string:
     return generate_sha_hash(seed);

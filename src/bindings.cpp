@@ -117,10 +117,10 @@ PYBIND11_MODULE(swiftchain, m)
           .def("get_ledger_size", &Blockchain::get_ledger_size,
                "Get the size of the current ledger.")
           .def("get_try_limit", &Blockchain::get_try_limit, "Get the maximum number of tries per mining attempt.")
-          .def("set_diff_redux_time", &Blockchain::set_diff_reduction_time, 
+          .def("set_redux_time", &Blockchain::set_redux_time, 
                "Set the time after which the difficulty is decreased (in hours).",
                py::arg("hours"))
-          .def("get_diff_redux_time", &Blockchain::get_diff_reduction_time, 
+          .def("get_redux_time", &Blockchain::get_redux_time, 
                "Get the time after which the difficulty is decreased (in milliseconds).")
           .def("get_blockchain_id", &Blockchain::get_blockchain_id, 
                "Get the identifying hash of this blockchain.");

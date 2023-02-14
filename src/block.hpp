@@ -32,10 +32,10 @@ class Block {
         std::string block_hash;
         std::string prev_hash;
 
-        std::string generate_timestamp();
-        std::string generate_block_hash(Block *b);
-
         std::string blockchain_id;
+
+        std::string generate_block_hash(Block *b);
+        std::string generate_timestamp();
 
     protected:
     public:
