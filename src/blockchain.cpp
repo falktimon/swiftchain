@@ -195,16 +195,16 @@ bool Blockchain::find_consensus(Blockchain *foreign_chain)
 void Blockchain::set_try_limit(long unsigned int try_limit)
 { this->try_limit = try_limit; }
 
-void Blockchain::set_difficulty_limit(unsigned int difficulyLimit)
+void Blockchain::set_difficulty_limit(unsigned int difficulty_limit)
 { this->difficulty_limit = difficulty_limit; }
 
 void Blockchain::set_difficulty(long unsigned int difficulty)
 { this->difficulty = difficulty; }
 
-void Blockchain::set_redux_time(long unsigned int time)
+void Blockchain::set_redux_time(float time)
 { 
-    time = time * 60 /*minutes*/ * 60 * /*seconds*/ 1000 /*milliseconds*/;
-    this->diff_redux_time = time; 
+    time = round(time * 60 /*minutes*/ * 60 * /*seconds*/ 1000 /*milliseconds*/);
+    this->diff_redux_time = (long unsigned int) time; 
 }
 
 Ledger Blockchain::get_ledger()

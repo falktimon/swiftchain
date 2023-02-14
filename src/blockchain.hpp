@@ -62,7 +62,7 @@ class Blockchain {
         void set_difficulty_limit(unsigned int difficulty_limit);
         void set_try_limit(long unsigned int try_limit);
         void set_difficulty(long unsigned int difficulty);
-        void set_redux_time(long unsigned int time);
+        void set_redux_time(float time);
 };
 
 #endif

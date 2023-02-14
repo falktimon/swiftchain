@@ -107,9 +107,12 @@ PYBIND11_MODULE(swiftchain, m)
           .def("get_block", &Blockchain::get_block, "Get a block by hash.", py::arg("hash"))
           .def("get_last_block", &Blockchain::get_last_block, "Get the last block in the ledger.", 
                py::return_value_policy::reference)
-          .def("set_difficulty_limit", &Blockchain::set_difficulty_limit, 
+          .def("set_diff_threshold", &Blockchain::set_difficulty_limit, 
                "Set the difficulty threshold. \
-               (The number of blocks at which the difficulty is raised.)", py::arg("diff_threshold"))
+               (The number of blocks at which the difficulty is raised.)", 
+               py::arg("diff_threshold"))
+          .def("get_diff_threshold", &Blockchain::get_difficulty_limit,
+               "Get the number of blocks at which the difficulty is raised.")
           .def("set_try_limit", &Blockchain::set_try_limit, 
                "Set the max. number of tries per mining attempt.", py::arg("try_limit"))
           .def("set_difficulty", &Blockchain::set_difficulty, 

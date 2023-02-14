@@ -15,6 +15,11 @@ class TestBlockchain(unittest.TestCase):
         self.assertFalse(blockchain.verify_block(wrong_block))
         self.assertTrue(blockchain.verify_block(correct_block))
 
+    def test_get_diff_threshold(self):
+
+        blockchain = Blockchain()
+        self.assertEqual(100, blockchain.get_diff_threshold())
+
     def test_get_ledger_size(self):
 
         tester_node = Node("Tester")
@@ -81,6 +86,41 @@ class TestBlockchain(unittest.TestCase):
 
         self.assertEqual(test_block, blockchain.get_last_block())
         self.assertNotEqual(g_block, blockchain.get_last_block())
+
+    def test_get_blockchain_id(self):
+
+        blockchain = Blockchain()
+        g_data = blockchain.get_last_block()
+
+        self.assertEqual(g_data.get_block_hash(), blockchain.get_blockchain_id())
+
+    def test_set_try_limit(self):
+
+        blockchain = Blockchain()
+        blockchain.set_try_limit(try_limit=10)
+
+        self.assertEqual(10, blockchain.get_try_limit())
+
+    def test_set_diff_threshold(self):
+
+        blockchain = Blockchain()
+        blockchain.set_diff_threshold(diff_threshold=10)
+
+        self.assertEqual(10, blockchain.get_diff_threshold())
+
+    def test_set_redux_time(self):
+
+        blockchain = Blockchain()
+        blockchain.set_redux_time(0.5)
+
+        self.assertEqual(1800000, blockchain.get_redux_time())
+
+    def test_set_difficulty(self):
+
+        blockchain = Blockchain()
+        blockchain.set_difficulty(100)
+
+        self.assertEqual(100, blockchain.get_difficulty())
 
     def test_find_consensus(self):
 
