@@ -58,7 +58,8 @@ class Blockchain {
 
         bool verify_block(Block *block);
         Block *mine_block(std::string data, std::string node_address, std::string data_description);
-        Block *mine_block_concurrently(std::string data, std::string node_address, std::string meta_data);
+        Block *mine_block_concurrently(std::string data, std::string node_address, 
+                                       std::string meta_data, unsigned int threads);
 
         bool find_consensus(Blockchain *foreign_chain);
         std::vector<Block *> get_blocks_by_range(unsigned int range);

@@ -106,7 +106,7 @@ PYBIND11_MODULE(swiftchain, m)
           .def("write_data", &Node::write_data, 
                "Write data into the blockchain from a node.",
                py::arg("data"), py::arg("chain"), py::arg("max_tries") = 10,
-               py::arg("meta_data") = "")
+               py::arg("meta_data") = "", py::arg("threads") = 1)
           .def("read_data_by_meta", &Node::read_data_by_meta, 
                "Find content by providing a metadata argument.", 
                py::arg("meta"), py::arg("chain"))
@@ -131,7 +131,7 @@ PYBIND11_MODULE(swiftchain, m)
                py::arg("data"), py::arg("node_addr"), py::arg("meta_data") = "")
           .def("mine_block_concurrently", &Blockchain::mine_block_concurrently, 
                "Mine a block in a parallelized manner. Returns None on failure, Block on success.",
-               py::arg("data"), py::arg("node_addr"), py::arg("meta_data") = "")
+               py::arg("data"), py::arg("node_addr"), py::arg("meta_data") = "", py::arg("threads") = 5)
           .def("find_consensus", &Blockchain::find_consensus, 
                "Find the Nakamoto consensus between two ledgers and replaces ledger \
                if foreign ledger possesses higher cumulative proof-of-work. \

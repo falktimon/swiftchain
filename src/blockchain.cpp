@@ -296,21 +296,23 @@ void *t_func(void *t_data)
     pthread_exit((void *) ptr);
 }
 */
-//! mine_block_concurrently(string, string)
+//! mine_block_concurrently(string, string, string, unsigned int)
 /*! Parameters:
 
 data: The data to be stored in the new block, as a string.
 node_address: A string identifier of a blockchain user. 
+meta_data: Metadata to be stored in the block.
+threads: The number of threads to be used.     
+If only fewer threads are available, the maximum - 1 will be used. 
 
 This method tries to mine a single block in various threads. 
 If an attempt should be started on a single thread, use mine_block(string, string).*/
-Block *Blockchain::mine_block_concurrently(string data, string node_address, string meta_data = "")
+Block *Blockchain::mine_block_concurrently(string data, string node_address,                                             
+                                           string meta_data = "", unsigned int threads = 5)
 {
     vector<future<Block *>> futs;
     Block *next_block = NULL;
     unsigned int prev_id = this->get_last_block()->get_block_id();
-
-    unsigned int threads = 5;
 
     for(unsigned int i = 0; i < threads; i++)
     {
@@ -339,26 +341,34 @@ Block *Blockchain::mine_block_concurrently(string data, string node_address, str
             return try_block;
 
         }));
-    };
+    }
 
-    for(unsigned int i = 0; i < futs.size(); i++)
+    do
     {
-        if(futs[i].valid() && futs[i].wait_for(chrono::milliseconds(30)) != future_status::ready)
-            continue;
+        for(unsigned int i = 0; i < futs.size(); i++)
+        {
+            if(!futs[i].valid()) continue;
 
-        if((next_block = futs[i].get()) != NULL) break;
-    }        
+            if(futs[i].wait_for(chrono::milliseconds(10)) != future_status::ready)
+                continue;
 
-    if(next_block == NULL) return NULL;
+            threads -= 1;
 
-    // Try and append/verify the new block on the blockchain
-    if(!this->append_block(next_block))
-        cout << "Could not append block to chain." << endl;
+            if((next_block = futs[i].get()) != NULL) 
+            {
+                // Try and append/verify the new block on the blockchain
+                if(!this->append_block(next_block))
+                    cout << "Could not append block to chain." << endl;
 
-    // Adjust difficulty after new block has been mined:
-    this->adjust_difficulty();
+                // Adjust difficulty after new block has been mined:
+                this->adjust_difficulty();
+                return (Block *) next_block;
+            }
+        }
 
-    return (Block *) next_block;
+    } while(threads != 0);
+
+    return NULL;
 }
 
 long unsigned int count_pow(Ledger l)

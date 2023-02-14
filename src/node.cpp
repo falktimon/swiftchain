@@ -49,24 +49,25 @@ Node::Node(string node_name)
 data: The data to be written into the blockchain, as a string.
 chain: The blockchain to be altered.
 try_limit (optional): The maximum number of retries to be executed. 
+threads: The number of threads to be used in mining. 
 
 This method provides a higher-level wrapper over the mine_block_concurrently(string, string) 
 method from the Blockchain class. It can be used to write data into a given blockchain.
-Writing an empty data string is not allowed.
 Returns true if a block has been added successfully, else returns false.*/
-bool Node::write_data(string data, Blockchain *chain, int try_limit = 10, string meta_data = "")
+bool Node::write_data(string data, Blockchain *chain, int try_limit = 20, 
+                      string meta_data = "", unsigned int threads = 1)
 {
-    // If message is empty, return false:
-    if(data == "") return false;
+    Block *block = NULL;
 
     // Try to mine block:
-    Block *block = chain->mine_block_concurrently(data, this->node_address, meta_data);
+    if(threads == 0 || threads == 1) block = chain->mine_block(data, this->node_address, meta_data);
+    else block = chain->mine_block_concurrently(data, this->node_address, meta_data, threads);
 
     // If block is still NULL, retry until try limit has been reached:
     if(!block) 
     {
-        if(this->tries++ == try_limit) return false;
-        write_data(data, chain, try_limit, meta_data);
+        if(this->tries++ >= try_limit) return false;
+        this->write_data(data, chain, try_limit, meta_data);
     }
 
     //! Reset try counter:
