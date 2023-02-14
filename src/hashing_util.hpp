@@ -5,6 +5,9 @@
 
 using namespace std;
 
+//! generate_sha_hash(string)
+/*! Parameters: A data string to be hashed.
+This function generates a SHA256 hash from a given string.*/
 std::string generate_sha_hash(string data)
 {
     vector<unsigned char> hash(picosha2::k_digest_size);

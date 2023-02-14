@@ -7,10 +7,14 @@
 
 /*  Simple hashcash implementation. */
 
+//! find_trailing_zero(string)
+/*! Parameters: A SHA hash to be examined for trailing zeros
+This function finds the number of trailing zeros in any given SHA hash.*/
 int find_trailing_zeros(std::string hash)
 {
     unsigned short int i = 0;
 
+    // Count the number of uninterrupted zeros in the given hash:
     while((hash[i++] == '0') && (i != (unsigned int)hash.size() - 1));
 
     return i;
@@ -40,16 +44,26 @@ const std::string hex_to_bin(char c)
     }
 }
 
+//! convert_to_bin(string)
+/*! Parameters: A SHA hash in hexadecimal notation.
+This function converts a hash in hexadecimal notation into binary 
+notation and returns it as a string.*/
 std::string convert_to_bin(std::string hash)
 {
     std::string binary;
 
+    // Assemble binary string:
     for(int i = 0; i < (int) hash.size(); i++)
         binary += hex_to_bin(hash[i]);
 
     return binary;
 }
 
+//! run_hash_cash(Block *)
+/*! Parameters: A Block object.
+Runs the hashcash proof-of-work algorithm on a given block.
+Returns true if the block hash satisfies the difficulty contained within the block,
+else it returns false.*/
 bool run_hash_cash(Block *block)
 {
     std::string hash = convert_to_bin(block->get_block_hash());
@@ -57,12 +71,17 @@ bool run_hash_cash(Block *block)
 
     unsigned short int zeros;
 
+    // Check if block hash satisfies the current difficulty:
     if((zeros = find_trailing_zeros(hash)) >= difficulty)
         return true;
 
     return false;
 }
 
+//! verify_attempt(Block *)
+/*! Parameters: A block object.
+This function tries to verify a block against a proof-of-work algorithm.
+Currently only hashcash is supported.*/
 bool verify_attempt(Block *block)
 {
    return run_hash_cash(block);
