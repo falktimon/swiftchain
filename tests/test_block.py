@@ -58,4 +58,16 @@ class TestBlock(unittest.TestCase):
         block = Block(data="Some Data", user_addr="Tester")
         self.assertEqual("Some Data", block.get_data())
 
+    def test_get_meta_data(self):
+
+        block = Block(data="Genesis", user_addr="Tester")
+        self.assertEqual("GENESIS", block.get_meta_data())
+
+    def test_set_meta_data(self):
+
+        block = Block(data="Genesis", user_addr="Tester")
+        block.set_meta_data(meta_data="CHANGED")
+
+        self.assertEqual("CHANGED", block.get_meta_data())
+
 if __name__ == '__main__': unittest.main()

@@ -59,8 +59,8 @@ class Blockchain {
                     std::string genesis_data, float diff_redux_time);
 
         bool verify_block(Block *block);
-        Block *mine_block(std::string data, std::string node_address);
-        Block *mine_block_concurrently(std::string data, std::string node_address);
+        Block *mine_block(std::string data, std::string node_address, std::string data_description);
+        Block *mine_block_concurrently(std::string data, std::string node_address, std::string meta_data);
 
         bool find_consensus(Blockchain *foreign_chain);
 

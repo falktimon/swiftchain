@@ -167,7 +167,7 @@ This method tries to mine a Block object on this Blockchain. This method does no
 advantage of multi-processing. If a block should be mined in parallel, 
 use the mine_block_concurrently(string, string) method.
 Appends a new Block to the ledger and returns it on success, NULL on failure.*/
-Block *Blockchain::mine_block(string data, string node_address)
+Block *Blockchain::mine_block(string data, string node_address, string meta_data = "")
 {
     /* Mine a new block by solving a proof-of-work puzzle. */
 
@@ -182,7 +182,8 @@ Block *Blockchain::mine_block(string data, string node_address)
 
         // Create a block with the next nonce
         try_block = new Block(this->get_last_block(), data, node_address,
-                            nonce++, this->get_difficulty(), this->blockchain_id);
+                            nonce++, this->get_difficulty(), this->blockchain_id,
+                            meta_data);
 
     } while(!verify_attempt(try_block));
 
@@ -264,7 +265,7 @@ node_address: A string identifier of a blockchain user.
 
 This method tries to mine a single block in various threads. 
 If an attempt should be started on a single thread, use mine_block(string, string).*/
-Block *Blockchain::mine_block_concurrently(string data, string node_address)
+Block *Blockchain::mine_block_concurrently(string data, string node_address, string meta_data = "")
 {
     Block *nextBlock = NULL;
 
@@ -275,8 +276,8 @@ Block *Blockchain::mine_block_concurrently(string data, string node_address)
         if(thread::hardware_concurrency() - 1)
         {   
             // Start a thread using a future:
-            auto future = async([this, data, node_address]{ 
-                return (Block *) this->mine_block(data, node_address); 
+            auto future = async([this, data, node_address, meta_data]{ 
+                return (Block *) this->mine_block(data, node_address, meta_data); 
             });
 
             // Get the value from the future and continue:

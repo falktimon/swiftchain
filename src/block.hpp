@@ -39,6 +39,7 @@ class Block {
         // Block Metadata
         std::string node_address;
         std::string timestamp;
+        std::string meta_data;
 
         std::string data;
 
@@ -57,12 +58,13 @@ class Block {
         Block(std::string data, std::string user_address);
         Block(Block *prev, std::string data, std::string user_address, 
               long unsigned int nonce, long unsigned int difficulty,
-              std::string blockchain_id);
+              std::string blockchain_id, std::string meta_data);
 
         void set_node_address(std::string node_address);
         void set_block_id(long unsigned int block_id);
         void set_blockchain_id(std::string blockchain_id);
         void set_data(std::string data);
+        void set_meta_data(std::string meta_data);
 
         std::string get_block_hash();
         std::string get_prev_hash();
@@ -73,6 +75,7 @@ class Block {
         std::string get_node_address();   
         std::string get_blockchain_id();
         std::string get_timestamp();
+        std::string get_meta_data();
 
 };
 

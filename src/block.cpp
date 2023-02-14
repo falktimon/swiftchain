@@ -36,7 +36,7 @@ difficulty: The current difficulty level.
 This is the common constructor used for mining blocks.*/
 Block::Block(Block *prev, string data, string userAddress,
             long unsigned int nonce, long unsigned int difficulty,
-            string blockchain_id = "0")
+            string blockchain_id = "0", string meta_data = "")
 {
     /* Common constructor. Used in mining blocks, for e.g. data storage.*/
 
@@ -45,6 +45,7 @@ Block::Block(Block *prev, string data, string userAddress,
     this->node_address = userAddress;
     this->timestamp = generate_timestamp();
     this->blockchain_id = blockchain_id;
+    this->meta_data = meta_data;
 
     this->difficulty = difficulty;
     this->nonce = nonce;
@@ -72,6 +73,7 @@ Block::Block(string data, string node_address)
     this->timestamp = generate_timestamp();
     this->difficulty = 0;
     this->nonce = 0;
+    this->meta_data = "GENESIS";
 
     this->prev_hash = "";
 
@@ -97,7 +99,8 @@ string Block::generate_block_hash(Block *b)
     // Turn the attributes of the Block object into a single string:
     string seed = b->data + b->node_address + b->timestamp +
                     to_string(b->difficulty) + to_string(b->nonce) +
-                    b->prev_hash + b->blockchain_id + to_string(b->block_id); 
+                    b->prev_hash + b->blockchain_id + to_string(b->block_id)
+                    + b->meta_data; 
 
     // Return the hash of the assembled string:
     return generate_sha_hash(seed);
@@ -177,3 +180,9 @@ string Block::get_blockchain_id()
 /*! Set the content of this Block object.*/
 void Block::set_data(string data)
 { this->data = data; }
+
+string Block::get_meta_data()
+{ return this->meta_data; }
+
+void Block::set_meta_data(string meta_data)
+{ this->meta_data = meta_data; }

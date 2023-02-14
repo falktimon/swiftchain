@@ -55,10 +55,11 @@ PYBIND11_MODULE(swiftchain, m)
 
      py::class_<Block>(m, "Block")
           .def(py::init<Block *, std::string, 
-               std::string, long unsigned int, long unsigned int>(),
+               std::string, long unsigned int, long unsigned int, std::string, std::string>(),
                "Common Block constructor. Creates a block if given a previous block.",
                py::arg("prev"), py::arg("data"), py::arg("user_addr"),
-               py::arg("nonce"), py::arg("difficulty"))
+               py::arg("nonce"), py::arg("difficulty"), py::arg("blockchain_id") = "0", 
+               py::arg("meta_data") = "")
           .def(py::init<std::string, std::string>(), 
                "Genesis constructor. Generate a Genesis block. This is called in the Blockchain constructor.",
                py::arg("data"), py::arg("user_addr"))
@@ -84,7 +85,10 @@ PYBIND11_MODULE(swiftchain, m)
           .def("set_data", &Block::set_data, "Set the data stored within the block.",
                py::arg("data"))
           .def("get_blockchain_id", &Block::get_blockchain_id,
-               "Get the ID of the blockchain on which this block has mined.");
+               "Get the ID of the blockchain on which this block has mined.")
+          .def("get_meta_data", &Block::get_meta_data, "Return the metadata stored in this block.")
+          .def("set_meta_data", &Block::set_meta_data, "Set the metadata stored in this block.",
+               py::arg("meta_data"));
 
      py::class_<Node>(m, "Node")
           .def(py::init<std::string>(), py::arg("node_name"))
@@ -116,10 +120,10 @@ PYBIND11_MODULE(swiftchain, m)
                "Verify a current block against the entire blockchain.", py::arg("block"))
           .def("mine_block", &Blockchain::mine_block, 
                "Mine a block on a single CPU core. Returns None on failure, Block on success.",
-               py::arg("data"), py::arg("node_addr"))
+               py::arg("data"), py::arg("node_addr"), py::arg("meta_data") = "")
           .def("mine_block_concurrently", &Blockchain::mine_block_concurrently, 
                "Mine a block in a parallelized manner. Returns None on failure, Block on success.",
-               py::arg("data"), py::arg("node_addr"))
+               py::arg("data"), py::arg("node_addr"), py::arg("meta_data") = "")
           .def("find_consensus", &Blockchain::find_consensus, 
                "Find the Nakamoto consensus between two ledgers and replaces ledger \
                if foreign ledger possesses higher cumulative proof-of-work. \
