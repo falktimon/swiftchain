@@ -9,6 +9,10 @@
 #include <string>
 #include <map>
 
+//! Node
+/*! An object of a Node class represents a blockchain user, in the broadest sense. 
+It may supply a base for a node in a P2P network or may represent a local user with access rights for a 
+relevant blockchain.*/
 class Node {
 
     private:

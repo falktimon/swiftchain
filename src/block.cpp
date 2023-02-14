@@ -10,7 +10,7 @@
 
 using namespace std;
 
-//! Block constructor
+//! Construct a common Block object
 /*! Parameters:
 
 prev: An instance of a Block object. 
@@ -41,6 +41,7 @@ Block::Block(Block *prev, string data, string userAddress,
 
 //! Construct a Genesis block
 /*! Parameters: 
+
 data -> Some content to be written into the Genesis block.
 node_address -> The hash string of the Node that is creating the Genesis block
 
@@ -63,6 +64,9 @@ Block::Block(string data, string node_address)
     this->block_hash = generate_block_hash(this);
 }
 
+//! generate_timestamp(void)
+/*! Parameters: None
+Returns a UNIX timestamp as a string. */
 string Block::generate_timestamp()
 {
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
@@ -71,6 +75,9 @@ string Block::generate_timestamp()
     return string(to_string(now_c));
 }
 
+//! generate_block_hash(Block *)
+/*! Parameters: Some Block object to be hashed.
+Generate a SHA256 hash string from a given Block object.*/
 string Block::generate_block_hash(Block *b)
 {
     // Turn the attributes of the Block object into a single string:
