@@ -34,36 +34,36 @@ PYBIND11_MODULE(swiftchain, m)
           .def(py::init<std::string, std::string>(), 
                "Genesis constructor. Generate a Genesis block. This is called in the Blockchain constructor.",
                py::arg("data"), py::arg("userAddr"))
-          .def("getBlockID", &Block::getBlockID,
+          .def("get_block_id", &Block::get_block_id,
                "Get the unique ID of the relevant block.")
-          .def("getData", &Block::getData, "Get the content stored in this Block.")
-          .def("getBlockHash", &Block::getBlockHash,
+          .def("get_data", &Block::get_data, "Get the content stored in this Block.")
+          .def("get_block_hash", &Block::get_block_hash,
                "Return the hash of this Block.")
-          .def("getPrevHash", &Block::getPrevHash,
+          .def("get_prev_hash", &Block::get_prev_hash,
                "Return the previous hash that this Block stores.")
-          .def("getDifficulty", &Block::getDifficulty,
+          .def("get_difficulty", &Block::get_difficulty,
                "Return the difficulty under which this Block was mined.")
-          .def("getNonce", &Block::getNonce, 
+          .def("get_nonce", &Block::get_nonce, 
                "Return the nonce with which this Block was mined.")
-          .def("setBlockID", &Block::setBlockID, 
+          .def("set_block_id", &Block::set_block_id, 
                "Set the unique ID of this block. \
                This function is mostly for internal use, as it may break the ledger.",
                py::arg("blockID"));
 
      py::class_<Node>(m, "Node")
           .def(py::init<std::string>(), py::arg("nodeName"))
-          .def("getNodeName", &Node::getNodeAddress, 
+          .def("get_node_name", &Node::get_node_address, 
                "Return the address of the relevant node.")
-          .def("getNodeAddress", &Node::getNodeName, 
+          .def("get_node_address", &Node::get_node_name, 
                "Return the name of the relevant node.")
-          .def("setNodeName", &Node::setNodeName, 
+          .def("set_node_name", &Node::set_node_name, 
                "Set the name of the current node.", py::arg("nodeName"))
-          .def("setNodeAddress", &Node::setNodeAddress, 
+          .def("set_node_address", &Node::set_node_address, 
                "Manually set the node address.",py::arg("nodeAddress"))
-          .def("readDataByRange", &Node::readDataByRange, 
+          .def("read_data_by_range", &Node::read_data_by_range, 
                "Return the data stored in a range of blocks.", 
                py::arg("range"), py::arg("chain"))
-          .def("writeData", &Node::writeData, 
+          .def("write_data", &Node::write_data, 
                "Write data into the blockchain from a node.",
                py::arg("data"), py::arg("chain"), py::arg("maxTries") = 10);
      
@@ -72,32 +72,32 @@ PYBIND11_MODULE(swiftchain, m)
                "Constructor for blockchain objects. User address and Genesis data must be set.",
                py::arg("tryLimit") = 10000, py::arg("diffThreshold") = 100, py::arg("userAddr") = "UNSET", 
                py::arg("gData") = "", py::arg("reduxTime") = 0.5)
-          .def("getDifficulty", &Blockchain::getDifficulty, 
+          .def("get_difficulty", &Blockchain::get_difficulty, 
                "Return the current difficulty to be satisfied in order to mine a block.")
-          .def("getLedger", &Blockchain::getLedger,
+          .def("get_ledger", &Blockchain::get_ledger,
                "Return the current ledger as a Ledger object.")
-          .def("verifyBlock", &Blockchain::verifyBlock, 
+          .def("verify_block", &Blockchain::verify_block, 
                "Verify a current block against the entire blockchain.", py::arg("block"))
-          .def("mineBlock", &Blockchain::mineBlock, 
+          .def("mine_block", &Blockchain::mine_block, 
                "Mine a block on a single CPU core. Returns None on failure, Block on success.",
                py::arg("data"), py::arg("nodeAddress"))
-          .def("mineBlockConcurrently", &Blockchain::mineBlockConcurrently, 
+          .def("mine_block_concurrently", &Blockchain::mine_block_concurrently, 
                "Mine a block in a parallelized manner. Returns None on failure, Block on success.",
                py::arg("data"), py::arg("nodeAddress"))
-          .def("findConsensus", &Blockchain::findConsensus, 
+          .def("find_consensus", &Blockchain::find_consensus, 
                "Find the Nakamoto consensus between two ledgers and replaces ledger \
                if foreign ledger possesses higher cumulative proof-of-work. \
                Returns ledger on success, None on failure.", py::arg("fChain"))
-          .def("getBlock", &Blockchain::getBlock, "Get a block by hash.", py::arg("hash"))
-          .def("getLastBlock", &Blockchain::getLastBlock, "Get the last block in the ledger.")
-          .def("setDifficultyLimit", &Blockchain::setDifficultyLimit, 
+          .def("get_block", &Blockchain::get_block, "Get a block by hash.", py::arg("hash"))
+          .def("get_last_block", &Blockchain::get_last_block, "Get the last block in the ledger.")
+          .def("set_difficulty_limit", &Blockchain::set_difficulty_limit, 
                "Set the difficulty threshold. \
                (The number of blocks at which the difficulty is raised.)", py::arg("dLimit"))
-          .def("setTryLimit", &Blockchain::setTryLimit, 
+          .def("set_try_limit", &Blockchain::set_try_limit, 
                "Set the max. number of tries per mining attempt.", py::arg("tryLimit"))
-          .def("setDifficulty", &Blockchain::setDifficulty, 
+          .def("set_difficulty", &Blockchain::set_difficulty, 
                "Set the difficulty of the blockchain.", py::arg("diff"))
-          .def("getLedgerSize", &Blockchain::getLedgerSize,
+          .def("get_ledger_size", &Blockchain::get_ledger_size,
                "Get the size of the current ledger.");
 }
 

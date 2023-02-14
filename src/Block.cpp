@@ -15,7 +15,7 @@ using namespace std;
 
 prev: An instance of a Block object. 
 data: Some content to be contained within the Block.
-userAddress: The nodeAddress of the Node creating this block.
+userAddress: The node_address of the Node creating this block.
 nonce: A number used to generate varying hashes.
 difficulty: The current difficulty level. 
 
@@ -25,44 +25,44 @@ Block::Block(Block *prev, string data, string userAddress,
 {
     /* Common constructor. Used in mining blocks, for e.g. data uploading.*/
 
-    this->blockID = (*prev).blockID + 1;
+    this->block_id = (*prev).block_id + 1;
     this->data = data;
-    this->nodeAddress = userAddress;
-    this->timestamp = generateTimestamp();
+    this->node_address = userAddress;
+    this->timestamp = generate_timestamp();
 
     this->difficulty = difficulty;
     this->nonce = nonce;
 
-    this->prevHash = prev->getBlockHash();
-    this->blockHash = generateBlockHash(this);
+    this->prev_hash = prev->get_block_hash();
+    this->block_hash = generate_block_hash(this);
 }
 
 //! Genesis constructor
 /*! Parameters: 
 
 data -> Some content to be written into the Genesis block.
-nodeAddress -> The hash string of the Node that is creating the Genesis block
+node_address -> The hash string of the Node that is creating the Genesis block
 
 A Genesis constructor, used to start a new blockchain. This constructor is called in the 
 Blockchain constructor. The Genesis block is used to validate any consecutive block in the blockchain. */
-Block::Block(string data, string nodeAddress)
+Block::Block(string data, string node_address)
 {
     /* Genesis constructor.*/
 
-    this->blockID = 0;
+    this->block_id = 0;
     this->data = data;
-    this->nodeAddress = nodeAddress;
+    this->node_address = node_address;
 
-    this->timestamp = generateTimestamp();
+    this->timestamp = generate_timestamp();
     this->difficulty = 0;
     this->nonce = 0;
 
-    this->prevHash = "";
+    this->prev_hash = "";
 
-    this->blockHash = generateBlockHash(this);
+    this->block_hash = generate_block_hash(this);
 }
 
-string Block::generateTimestamp()
+string Block::generate_timestamp()
 {
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
     std::time_t now_c = std::chrono::system_clock::to_time_t(now);
@@ -70,63 +70,63 @@ string Block::generateTimestamp()
     return string(to_string(now_c));
 }
 
-string Block::generateBlockHash(Block *b)
+string Block::generate_block_hash(Block *b)
 {
     // Turn the attributes of the Block object into a single string:
-    string seed = b->data + b->nodeAddress + b->timestamp +
+    string seed = b->data + b->node_address + b->timestamp +
                     to_string(b->difficulty) + to_string(b->nonce) +
-                    b->prevHash; 
+                    b->prev_hash; 
 
     // Return the hash of the assembled string:
     return generateSHAHash<string>(seed);
 }
 
-//! getBlockID(void)
+//! getblock_id(void)
 /*! Parameters: None
 Returns the unique ID of the Block object.*/
-long unsigned int Block::getBlockID()
-{ return this->blockID; }
+long unsigned int Block::get_block_id()
+{ return this->block_id; }
 
 //! getData(void)
 /*! Parameters: None
 Get the content container within the Block object. */
-string Block::getData()
+string Block::get_data()
 { return this->data; }
 
-//! getBlockHash(void)
+//! get_block_hash(void)
 /*! Parameters: None
 Get the hash of the Block object.*/
-string Block::getBlockHash()
-{ return this->blockHash; }
+string Block::get_block_hash()
+{ return this->block_hash; }
 
-//! getPrevHash(void)
+//! getprev_hash(void)
 /*! Parameters: None
 Get the previous hash stored within in Block object. */
-string Block::getPrevHash()
-{ return this->prevHash; }
+string Block::get_prev_hash()
+{ return this->prev_hash; }
 
 //! getDifficulty(void)
 /*! Parameters: None
 Get the difficulty level under which the current block was mined.*/
-long unsigned int Block::getDifficulty()
+long unsigned int Block::get_difficulty()
 { return this->difficulty; }
 
 //! getNonce(void)
 /*! Parameters: None
 Return the nonce with which the Block object was mined.*/
-long int Block::getNonce()
+long int Block::get_nonce()
 { return this->nonce; }
 
-//! setBlockID(long unsigned int)
+//! setblock_id(long unsigned int)
 /*! Parameters: A unique integer to be used as a block identifier.*/
-void Block::setBlockID(long unsigned int blockID)
-{ this->blockID = blockID; }
+void Block::set_block_id(long unsigned int block_id)
+{ this->block_id = block_id; }
 
-//! getNodeAddress(void)
+//! getnode_address(void)
 /*! Parameters: None
 Get the address of the node that mined this block.*/
-string Block::getNodeAddress()
-{ return this->nodeAddress; }
+string Block::get_node_address()
+{ return this->node_address; }
 
-string Block::getTimestamp()
+string Block::get_timestamp()
 { return this->timestamp; }
