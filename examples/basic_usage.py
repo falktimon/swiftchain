@@ -15,6 +15,6 @@ for i in range(100):
     user.write_data(data="Hello " + str(i), chain=chain)
 
 # Print the content of the last 5 blocks onto the screen:
-print(user.read_data_by_range(range=5, chain=chain))
+print(user.read_data_by_range(5, chain=chain))
 
 # Output: ['Hello 95', 'Hello 96', 'Hello 97', 'Hello 98', 'Hello 99']

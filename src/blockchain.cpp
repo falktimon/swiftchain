@@ -29,6 +29,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <future>
 
 using namespace std;
 
@@ -277,7 +278,24 @@ Block *Blockchain::get_block_by_index(unsigned int index)
     return blocks[index];
 }
 
+typedef struct {
+    Blockchain *self;
+    volatile Block *block;
+    const char **data;
+    const char **node_address;
+    const char **meta_data;
+} thread_data;
 
+/*
+void *t_func(void *t_data)
+{
+    static thread_data *ptr = (thread_data *) t_data;
+    ptr->block = ptr->self->mine_block(*(ptr->data), *(ptr->node_address),
+                          *(ptr->meta_data));
+
+    pthread_exit((void *) ptr);
+}
+*/
 //! mine_block_concurrently(string, string)
 /*! Parameters:
 
@@ -288,25 +306,59 @@ This method tries to mine a single block in various threads.
 If an attempt should be started on a single thread, use mine_block(string, string).*/
 Block *Blockchain::mine_block_concurrently(string data, string node_address, string meta_data = "")
 {
-    Block *nextBlock = NULL;
+    vector<future<Block *>> futs;
+    Block *next_block = NULL;
+    unsigned int prev_id = this->get_last_block()->get_block_id();
 
-    // Try until block has been found:
-    while(!nextBlock)
+    unsigned int threads = 5;
+
+    for(unsigned int i = 0; i < threads; i++)
     {
-        // If all hardware thread contexts are in use, do nothing
-        if(thread::hardware_concurrency() - 1)
-        {   
-            // Start a thread using a future:
-            auto future = async([this, data, node_address, meta_data]{ 
-                return (Block *) this->mine_block(data, node_address, meta_data); 
-            });
+        futs.push_back(async([this, data, node_address, meta_data, prev_id]{
 
-            // Get the value from the future and continue:
-            nextBlock = future.get(); 
-        }
-    }
+            int nonce = 0;
+            Block *try_block = NULL;
+            unsigned long tries = 0;
 
-    return nextBlock;
+            do
+            {   
+                // Check if block has already been mined by another worker:
+                if(this->get_last_block()->get_block_id() == prev_id + 1)
+                    return (Block *) NULL;
+
+                // Check if try limit has been exceeded
+                if(tries++ == this->try_limit) return (Block *) NULL;
+
+                // Create a block with the next nonce
+                try_block = new Block(this->get_last_block(), data, node_address,
+                                    nonce++, this->get_difficulty(), this->blockchain_id,
+                                    meta_data);
+
+            } while(!verify_attempt(try_block));
+
+            return try_block;
+
+        }));
+    };
+
+    for(unsigned int i = 0; i < futs.size(); i++)
+    {
+        if(futs[i].valid() && futs[i].wait_for(chrono::milliseconds(30)) != future_status::ready)
+            continue;
+
+        if((next_block = futs[i].get()) != NULL) break;
+    }        
+
+    if(next_block == NULL) return NULL;
+
+    // Try and append/verify the new block on the blockchain
+    if(!this->append_block(next_block))
+        cout << "Could not append block to chain." << endl;
+
+    // Adjust difficulty after new block has been mined:
+    this->adjust_difficulty();
+
+    return (Block *) next_block;
 }
 
 long unsigned int count_pow(Ledger l)

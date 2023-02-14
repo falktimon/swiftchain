@@ -25,8 +25,6 @@
 
 #include <stdint.h>
 #include <ctime>
-#include <thread>
-#include <future>
 
 typedef std::map<std::string, Block *> Ledger;
 
