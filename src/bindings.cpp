@@ -103,7 +103,7 @@ PYBIND11_MODULE(swiftchain, m)
                if foreign ledger possesses higher cumulative proof-of-work. \
                Returns ledger on success, None on failure.", py::arg("f_chain"))
           .def("get_block", &Blockchain::get_block, "Get a block by hash.", py::arg("hash"))
-          .def("get_last_block", &Blockchain::get_last_block, "Get the last block in the ledger.")
+          .def("get_last_block", &Blockchain::get_last_block, "Get the last block in the ledger.", py::return_value_policy::reference)
           .def("set_difficulty_limit", &Blockchain::set_difficulty_limit, 
                "Set the difficulty threshold. \
                (The number of blocks at which the difficulty is raised.)", py::arg("diff_threshold"))
