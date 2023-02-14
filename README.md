@@ -53,15 +53,15 @@ print(user.read_data_by_range(5, chain=chain))
 
 ```
 By default, this example uses 5 threads to mine a block on the blockchain. Feel free to vary the amount of threads by specifiying the optional ```threads``` parameter of the ```write_data``` function, to see how it impacts performance.
-For more details on how to use this library, please consult the wiki.
+For more details on how to use this library, please consult the [wiki](https://github.com/mnt-home/swiftchain/wiki).
 
 ## Limitations
 
 There are some limitations which currently affect swiftchain:
 
 * swiftchain has only been tested on a Linux machine and may not work as expected on a different OS. It doesn't, however, contain any platform-specific code.
+* Currently, swiftchain is probably not very scalable, as it is not really optimized. This hasn't been tested yet properly though and may thus turn out to not be a problem.
 * The API does not include methods for networking - these have to be implemented *ad-hoc*. This may change in a future version.
-* Currently, swiftchain is probably not very scalable, as some functions have a not-so-great time complexity. This hasn't been tested yet properly though and may thus turn out to not be a problem.
 
 ## Dependencies
 
