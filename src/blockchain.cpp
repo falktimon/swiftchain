@@ -146,11 +146,16 @@ Block *Blockchain::get_block(string hash)
 Block *Blockchain::mine_block_concurrently(string data, string node_address)
 {
     Block *nextBlock = NULL;
+    unsigned int i = 0;
 
     while(!nextBlock)
     {
-        auto future = async([this, data, node_address]{ return this->mine_block(data, node_address); });
-        nextBlock = future.get(); 
+        // If all hardware threads are in use, do nothing
+        if(i++ != (thread::hardware_concurrency() - 1))
+        {
+            auto future = async([this, data, node_address]{ return this->mine_block(data, node_address); });
+            nextBlock = future.get(); 
+        }
     }
 
     return nextBlock;
