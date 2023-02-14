@@ -99,40 +99,68 @@ vector<string> Node::read_data_by_range(unsigned int range, Blockchain *chain)
     return content;
 }
 
+//! get_blocks_by_meta(string, Blockchain *)
+/*! Parameters: 
+
+meta: A metadata string
+chain: A Blockchain object
+
+Get a list of Blocks which share a common metadata attribute.*/
 vector<Block *> Node::get_blocks_by_meta(string meta, Blockchain *chain)
 {
+    // Get all blocks in ledger, ordered by block ID:
     vector<Block *> blocks = chain->get_blocks_by_range(chain->get_ledger_size());
     vector<Block *> content;
 
+    // Search blocks retrieved above for the supplied metadata tag:
     for(unsigned int i = 0; i < blocks.size(); i++)
     {
         if(blocks[i]->get_meta_data() == meta)
             content.push_back(blocks[i]);
     }
 
+    // If no Blocks were found, throw exception:
     if(content.empty())
         throw out_of_range("Ledger does not contain block with meta tag " + meta);
 
     return content;
 }
 
+//! read_data_by_meta(string, Blockchain *)
+/*! Parameters: 
+
+meta: A metadata string
+chain: A Blockchain object
+
+Get the data from all Block objects which share a common metadata attribute.*/
 vector<string> Node::read_data_by_meta(string meta, Blockchain *chain)
 {
+    // Get all blocks in ledger, ordered by block ID:
     vector<Block *> blocks = chain->get_blocks_by_range(chain->get_ledger_size());
     vector<string> content;
 
+    // Search blocks retrieved above for the supplied 
+    // metadata tag and save their content:
     for(unsigned int i = 0; i < blocks.size(); i++)
     {
         if(blocks[i]->get_meta_data() == meta)
             content.push_back(blocks[i]->get_data());
     }
 
+    // If no Blocks were found, throw exception:
     if(content.empty())
         throw out_of_range("Ledger does not contain block with meta tag " + meta);
 
     return content;
 }
 
+//! get_block_by_index(unsigned int, Blockchain *)
+/*! Parameters: 
+
+index: The index of the relevant block in the Blockchain
+chain: A Blockchain object
+
+Get the Block object at the specified index in the ledger.*/
 Block *Node::get_block_by_index(unsigned int index, Blockchain *chain)
 {
     if(index > chain->get_ledger_size())

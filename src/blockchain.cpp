@@ -257,12 +257,19 @@ Block *Blockchain::get_block(string hash)
     return this->ledger.at(hash);
 }
 
+//! get_block_by_index(unsigned int)
+/*! Parameters: The index of the relevant Block object in the Blockchain
+
+Get the Block object at the specified index in the ledger.*/
 Block *Blockchain::get_block_by_index(unsigned int index)
 {
+    // Throw out of range exception if index is too large:
     if(index > this->get_ledger_size())
         throw out_of_range("Requested index exceeds size of ledger.");
 
+    // Get all blocks from ledger:
     vector<Block *> blocks = this->get_blocks_by_range(this->get_ledger_size());
+    // Return block at [index]
     return blocks[index];
 }
 
