@@ -1,1 +1,4 @@
-c++ -O3 -Wall -shared -std=c++11 -fPIC -I/usr/include/python3.8 -I/home/monti/.local/lib/python3.8/site-packages/pybind11/include bindings.cpp -o swiftchain.cpython-38-x86_64-linux-gnu.so
+c++ -O3 -Wall -shared -std=c++11 -fPIC -I/usr/include/python3.8 -I/home/${USER}/.local/lib/python3.8/site-packages/pybind11/include bindings.cpp -o swiftchain.cpython-38-x86_64-linux-gnu.so
+mkdir -p ./build
+[ -f ./build/swiftchain.cpython-38-x86_64-linux-gnu.so ] && rm ./build/swiftchain.cpython-38-x86_64-linux-gnu.so
+mv ./swiftchain.cpython-38-x86_64-linux-gnu.so ./build
