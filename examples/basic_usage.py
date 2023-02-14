@@ -5,12 +5,13 @@ from swiftchain import Blockchain, Node
 user = Node("Some user name to be hashed")
 
 # Create a blockchain with a difficulty threshold of 7,
-# meaning that the difficulty is increased every 7 blocks:
+# meaning that the difficulty is increased every 7 blocks.
 chain = Blockchain(diff_threshold=7, g_data="Fiat Lux!",
                    node_addr=user.get_node_addr())
 
 # Mine 100 blocks on the above chain.
-# This will take ~5 seconds on an average consumer PC:
+# The amount of time this takes will vary depending on your system,
+# with some degree of luck thrown in.
 for i in range(100):
     user.write_data(data="Hello " + str(i), chain=chain)
 
