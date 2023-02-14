@@ -159,7 +159,7 @@ Set the Node address associated with this Block object.*/
 void Block::set_node_address(string node_address)
 { this->node_address = node_address; }
 
-//! getnode_address(void)
+//! get_node_address(void)
 /*! Parameters: None
 Get the address of the node that mined this block.*/
 string Block::get_node_address()

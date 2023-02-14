@@ -9,6 +9,7 @@
   - [Various Methods](#various-methods)
   - [Getters and Setters](#getters-and-setters)
 ---
+
 # The Blockchain Class
 
 The Blockchain class is used to generate a Blockchain object, which contains a ledger and various methods for interacting with said ledger.
@@ -32,7 +33,7 @@ Blockchain(try_limit = 10000, diff_threshold = 100, node_addr = "UNSET", g_data 
 * ```genesis_data```: The data to be stored in the Genesis block.
 * ```diff_redux_time```: The timespan in hours that has to pass between Blocks in order for the difficulty to be halfed.
 
-The ```try_limit``` and ``diff_threshold``` parameters are the parameters that specify how hard it is to mine a new block on the Blockchain. These parameters cannot be zero.
+The ```try_limit``` and ```diff_threshold``` parameters are the parameters that specify how hard it is to mine a new block on the Blockchain. These parameters cannot be zero.
 
 # Blockchain API
 
@@ -62,13 +63,14 @@ Appends a new Block to the ledger and returns it on success, returns ```None``` 
 
 -----------------------------------------------------------------------------------------------------
 ```python
-mine_block_concurrently(data, node_addr, meta_data = "")
+mine_block_concurrently(data, node_addr, meta_data = "", threads = 5)
 ```
 *Parameters:*
 
 * ```data```: The data to be stored in the new block, as a string.
 * ```node_address```: A string identifier of a blockchain user. 
 * ```meta_data```: The metadata to be contained in the new block.
+* ```threads```: threads: The number of threads to be used. If only fewer threads are available, the maximum - 1 will be used. 
 
 This method tries to mine a single block in multiple threads. 
 If an attempt should be started on a single thread, use ```mine_block```.
@@ -94,6 +96,17 @@ get_blocks_by_range(range)
 Returns a range of Blocks from the ledger as a vector. If the range exceeds the size of
 the ledger, an out_of_bounds exception is thrown. Blocks are ordered by ID in ascending order.
 
+-----------------------------------------------------------------------------------------------------
+```python
+get_block_by_index(index)
+```
+
+*Parameters:* 
+
+* ```index```: The index of the relevant Block object in the Blockchain.
+
+Get the Block object at the specified index in the ledger.
+
 ----------------------------------------------------------------------------------------------------
 ```python
 get_block(hash)
@@ -105,17 +118,6 @@ get_block(hash)
 
 Find a Block object in the ledger by hash.
 Returns a Block object on success, ```None``` on failure.
-
------------------------------------------------------------------------------------------------------
-```python
-get_block_by_index(index)
-```
-
-*Parameters:* 
-
-* ```index```: The index of the relevant Block object in the Blockchain
-
-Get the Block object at the specified index in the ledger.
 
 ## Various Methods
 
