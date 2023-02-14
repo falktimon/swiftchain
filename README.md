@@ -22,7 +22,7 @@ cd swiftchain/src
 ./make_lib
 ```
 
-This will create an object file for your platform, which may be included in a project locally or added to the ```site-packages``` folder in the Python installation directory.
+This will create an object file for your platform in a directory called ```build```, which may be included in a project locally or added to the ```site-packages``` folder in the Python installation directory.
 
 ## Basic Usage
 
