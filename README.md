@@ -26,6 +26,8 @@ This will create an object file for your platform, which may be included in a pr
 
 ## Basic Usage
 
+Here is a basic example of using swiftchain to create a Blockchain:
+
 ```python
 from swiftchain import Blockchain, Node
 
@@ -50,20 +52,11 @@ print(user.read_data_by_range(range=5, chain=chain))
 
 ```
 
+For more information on how to use swiftchain, please consult the documentation.
 
 ## Limitations
 
-Currently, a few specific things are hardcoded into the library and cannot be changed. These limitations mostly apply to the prebuild Blockchain class.
+There are some limitations which currently affect swiftchain:
 
-* swiftchain has currently only been tested on a Linux machine and may not work as expected on a different OS
+* swiftchain has only been tested on a Linux machine and may not work as expected on a different OS
 * The API does not include methods for networking - these have to be implemented *ad-hoc*. This may change in a future version.
-
-## Features
-
-* Exposes basic building blocks of Blockchain applications in an easy-to-use API
-* Permissive open-source license (Apache-2.0)
-* Tiny codebase (~1400 SLoC, excluding pybind11 and tests) with a small installation size (500KB)
-
-## Known Issues
-
-* When mining two Blocks with the same content and node address, verification on the chain sometimes fails. This happens only if they are also mined with the same nonce and in the same millisecond. The odds of this happening decrease over time.
