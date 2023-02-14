@@ -1,13 +1,13 @@
 # swiftchain
 ### A tiny, opinionated library for building performant Blockchain applications in Python
 
-**Please note: swiftchain is currently still in early development.**
+**Please note: swiftchain is currently still in early development and not usable.**
 
 This library provides an easy-to-use, mid-level API for building Blockchain applications in Python. It allows parallelized mining of Blocks on consumer CPUs, implements the Nakamoto consensus algorithm and exposes an additional Node class, which maybe used as a basis for implementing a network node in a Peer-To-Peer network.
 
 ## Installation
 
-swiftchain may be installed via pip using the following command:
+swiftchain may be installed via pip using the following command (currently not working):
 ```
 pip install swiftchain
 ```
@@ -60,7 +60,7 @@ For more details on how to use this library, please consult the [wiki](https://g
 
 There are some limitations which currently affect swiftchain:
 
-* swiftchain has only been tested on a Linux machine and may not work as expected on a different OS. It doesn't, however, contain any platform-specific code.
+* swiftchain has only been tested on a Linux machine and may not build or work as expected on a different OS. It doesn't, however, contain any platform-specific code.
 * Currently, swiftchain is probably not very scalable, as it is not really optimized. This hasn't been tested yet properly though and may thus turn out to not be a problem.
 * The API does not include methods for networking - these have to be implemented *ad-hoc*. This may change in a future version.
 
