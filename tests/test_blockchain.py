@@ -59,8 +59,9 @@ class TestBlockchain(unittest.TestCase):
         self.assertEqual(1, blockchain.get_difficulty())
 
         for i in range(105):
-            tester_node.write_data(data=str(i), chain=blockchain)
+            tester_node.write_data(data=str(i), chain=blockchain, max_tries=15)
 
+        # Expected failure if not all blocks could be mined:
         self.assertTrue(blockchain.get_difficulty() > 9)
 
     def test_get_block(self):
@@ -121,6 +122,20 @@ class TestBlockchain(unittest.TestCase):
         blockchain.set_difficulty(100)
 
         self.assertEqual(100, blockchain.get_difficulty())
+
+    def test_get_blocks_by_range(self):
+
+        tester_node = Node("Tester")
+        blockchain = Blockchain()
+
+        for i in range(100):
+            tester_node.write_data(data=str(i), chain=blockchain)
+
+        blocks = blockchain.get_blocks_by_range(5)
+        data = [block.get_data() for block in blocks]
+
+        self.assertEqual(['95', '96', '97', '98', '99'], data)
+
 
     def test_find_consensus(self):
 
