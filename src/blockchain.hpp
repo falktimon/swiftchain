@@ -25,8 +25,10 @@
 
 #include <stdint.h>
 #include <ctime>
+#include <vector>
 
 typedef std::map<std::string, Block *> Ledger;
+#include <future>
 
 //! Blockchain
 /*! This class implements a Blockchain structure and various methods
@@ -48,6 +50,7 @@ class Blockchain {
         void adjust_block_id_and_append(Block *block);
         void adjust_difficulty();
 
+        Block *retrieve_data_from_futures(std::vector<std::future<Block *>> *futs, unsigned int threads);
     protected:
     public:
 

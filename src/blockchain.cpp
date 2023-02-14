@@ -29,7 +29,6 @@
 
 #include <iostream>
 #include <cmath>
-#include <future>
 
 using namespace std;
 
@@ -278,24 +277,12 @@ Block *Blockchain::get_block_by_index(unsigned int index)
     return blocks[index];
 }
 
-typedef struct {
-    Blockchain *self;
-    volatile Block *block;
-    const char **data;
-    const char **node_address;
-    const char **meta_data;
-} thread_data;
-
-/*
-void *t_func(void *t_data)
+unsigned int check_thread_avail(unsigned int threads)
 {
-    static thread_data *ptr = (thread_data *) t_data;
-    ptr->block = ptr->self->mine_block(*(ptr->data), *(ptr->node_address),
-                          *(ptr->meta_data));
-
-    pthread_exit((void *) ptr);
+    unsigned int adj_threads = threads - (threads - thread::hardware_concurrency()) - 1;
+    return (threads < thread::hardware_concurrency()) ? threads : adj_threads;
 }
-*/
+
 //! mine_block_concurrently(string, string, string, unsigned int)
 /*! Parameters:
 
@@ -311,11 +298,16 @@ Block *Blockchain::mine_block_concurrently(string data, string node_address,
                                            string meta_data = "", unsigned int threads = 5)
 {
     vector<future<Block *>> futs;
-    Block *next_block = NULL;
     unsigned int prev_id = this->get_last_block()->get_block_id();
+
+    // Check if enough threads are available to satisfy user request,
+    // else adjust to one thread below maximum
+    threads = check_thread_avail(threads);
 
     for(unsigned int i = 0; i < threads; i++)
     {
+        // Create a future containing a modified version of the 
+        // mining algorithm:
         futs.push_back(async([this, data, node_address, meta_data, prev_id]{
 
             int nonce = 0;
@@ -343,18 +335,33 @@ Block *Blockchain::mine_block_concurrently(string data, string node_address,
         }));
     }
 
+    // Return the value that is retrieved from the futures:
+    return this->retrieve_data_from_futures(&futs, threads);
+
+}
+
+Block *Blockchain::retrieve_data_from_futures(vector<future<Block *>> *futs, unsigned int threads)
+{
+    Block *next_block = NULL;
+
+    // Loop while not all threads have returned:
     do
     {
-        for(unsigned int i = 0; i < futs.size(); i++)
+        // Check each future once:
+        for(unsigned int i = 0; i < (*futs).size(); i++)
         {
-            if(!futs[i].valid()) continue;
+            // Skip invalid futures (i.e. all futures that have already returned:)
+            if(!(*futs)[i].valid()) continue;
 
-            if(futs[i].wait_for(chrono::milliseconds(10)) != future_status::ready)
+            // Check if current future is ready:
+            if((*futs)[i].wait_for(chrono::milliseconds(10)) != future_status::ready)
                 continue;
 
+            // Modify thread count:
             threads -= 1;
 
-            if((next_block = futs[i].get()) != NULL) 
+            // Check if result is NULL. If it isn't, return the block that was mined:
+            if((next_block = (*futs)[i].get()) != NULL) 
             {
                 // Try and append/verify the new block on the blockchain
                 if(!this->append_block(next_block))
@@ -368,6 +375,7 @@ Block *Blockchain::mine_block_concurrently(string data, string node_address,
 
     } while(threads != 0);
 
+    // If no block could be mined, return NULL:
     return NULL;
 }
 
