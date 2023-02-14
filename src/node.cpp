@@ -17,7 +17,7 @@
 
 using namespace std;
 
-typedef reverse_iterator<_Rb_tree_iterator<pair<const string, Block *>>> rIter;
+typedef reverse_iterator<_Rb_tree_iterator<pair<const string, Block *>>> r_iter;
 
 Node::Node(string node_name)
 {
@@ -45,7 +45,7 @@ vector<string> Node::read_data_by_range(int range, Blockchain *chain)
 {
     // Get a range of block data from the ledger
     Ledger ledger = chain->get_ledger();
-    rIter backwards = ledger.rbegin();
+    r_iter backwards = ledger.rbegin();
 
     vector<string> content;
 

@@ -161,19 +161,20 @@ Block *Blockchain::mine_block_concurrently(string data, string node_address)
     return nextBlock;
 }
 
-long unsigned int countPoW(Ledger l)
+long unsigned int count_pow(Ledger l)
 {
-    long unsigned int pow = 0;
-    iter i;
+    long unsigned int cml_pow = 0;
+    iter i = l.begin();
 
-    while(i != l.end()) pow += i->second->get_difficulty();
+    do cml_pow += (long unsigned int) pow(2, i->second->get_difficulty());
+    while(++i != l.end());
 
-    return pow;
+    return cml_pow;
 }
 
 bool Blockchain::find_consensus(Blockchain *foreign_chain)
 {
-    if(countPoW(foreign_chain->get_ledger()) > countPoW(this->ledger))
+    if(count_pow(foreign_chain->get_ledger()) > count_pow(this->ledger))
     {
         this->ledger = foreign_chain->get_ledger();
         return true;
@@ -201,7 +202,10 @@ void Blockchain::set_difficulty(long unsigned int difficulty)
 { this->difficulty = difficulty; }
 
 Ledger Blockchain::get_ledger()
-{ return this->ledger; }
+{ 
+    Ledger l_copy = this->ledger; 
+    return l_copy;
+}
 
 long unsigned int Blockchain::get_difficulty()
 { return this->difficulty; }

@@ -3,6 +3,7 @@
 #include "pybind11/include/pybind11/pybind11.h"
 #include "pybind11/include/pybind11/chrono.h"
 #include "pybind11/include/pybind11/stl.h"
+#include "pybind11/include/pybind11/stl_bind.h"
 #endif
 
 #ifndef BLOCKCHAIN_CPP
@@ -32,8 +33,12 @@
 
 namespace py = pybind11;
 
+PYBIND11_MAKE_OPAQUE(std::map<std::string, Block *>);
+
 PYBIND11_MODULE(swiftchain, m)
 {
+     py::bind_map<std::map<std::string, Block *>>(m, "Ledger");
+
      py::class_<Block>(m, "Block")
           .def(py::init<Block *, std::string, 
                std::string, long unsigned int, long unsigned int>(),

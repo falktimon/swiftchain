@@ -16,7 +16,6 @@ class Node {
         std::string node_name;
         std::string node_address;
 
-        std::map<std::string, std::string> neighborNodes;
         int tries;
 
     protected:

@@ -35,6 +35,8 @@ class Blockchain {
 
     protected:
     public:
+
+        //! Blockchain constructor
         Blockchain(long unsigned int try_limit, 
                     unsigned int difficulty_limit, std::string user_name, 
                     std::string genesis_data, float diff_redux_time);
