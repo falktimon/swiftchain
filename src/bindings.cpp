@@ -118,7 +118,7 @@ PYBIND11_MODULE(swiftchain, m)
      py::class_<Blockchain>(m, "Blockchain")
           .def(py::init<long unsigned int, unsigned int, std::string, std::string, float>(),
                "Constructor for blockchain objects. User address and Genesis data must be set.",
-               py::arg("try_limit") = 10000, py::arg("diff_threshold") = 100, py::arg("node_addr") = "UNSET", 
+               py::arg("try_limit") = 100000, py::arg("diff_threshold") = 100, py::arg("node_addr") = "UNSET", 
                py::arg("g_data") = "", py::arg("redux_time") = 0.5)
           .def("get_difficulty", &Blockchain::get_difficulty, 
                "Return the current difficulty to be satisfied in order to mine a block.")

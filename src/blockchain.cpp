@@ -46,7 +46,7 @@ diff_redux_time: The timespan in hours that has to pass between Blocks in order 
 
 Construct a Blockchain object. All parameters for this constructor have default values. 
 node_addr and genesis_data should always be supplied.*/
-Blockchain::Blockchain(long unsigned int try_limit = 10000, 
+Blockchain::Blockchain(long unsigned int try_limit = 100000, 
                        unsigned int difficulty_limit = 100,
                        string node_addr = "UNSET", string genesis_data = "",
                        float diff_redux_time = 0.5)
